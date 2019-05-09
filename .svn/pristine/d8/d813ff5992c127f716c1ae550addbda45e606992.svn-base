@@ -1,7 +1,0 @@
-@-moz-document url-prefix() {
-  .quantity-box-pm-ic-block {
-    .vnis__button {
-      margin-left: -4px;
-    }
-  }
-}
