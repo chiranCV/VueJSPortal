@@ -1,0 +1,25 @@
+{
+	"APIMethods": {
+		"Product": {
+			"Search": "/product/Search",
+			"Details": "/product/DetailsPage",
+			"GlobalInventory": "/inventory/CheckGlobalInventory",
+			"LastViewdItems": "product/GetLastViewdProducts"
+		},
+		"Common": {
+			"DisableDates": "/basket/GetBlockedDates",
+			"SanaText": "/common/GetSanaTexts"
+		},
+		"Basket": {
+			"CurrentBasket": "/basket/GetCurrentBasketModel",
+			"CurrentBasketOld": "/invokegetcurrentbasketmodel",
+			"UpdateBasket": "/basket/UpdateAndGetBasketModel",
+			"AddProductTobasket": "/basket/AddItemsToBasket",
+			"ClearBasket": "/basket/ClearBasket"
+		}
+	},
+	"DEV_ENV_SanaUrl": "https://aftermarketqa.zf.com/functions/controller/ioo",
+	"BETA_ENV_SanaUrl": "https://frdv01843.emea.zf-world.com:8191/SAPUpgrade_webapi/api",
+	"LIVE_ENV_SanaUrl": "http://zf.corp.ism.nl/en-us/zfapi_",
+	"MaxLastviewdToKeep": 5
+}

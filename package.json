@@ -1,0 +1,49 @@
+{
+  "name": "zf_vue_poc",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.15",
+    "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "@fortawesome/vue-fontawesome": "^0.1.5",
+    "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1",
+    "js-cookie": "^2.2.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "popper.js": "^1.14.7",
+    "printd": "^1.3.0",
+    "vue": "https://github.com/vuejs/vue/archive/v2.6.10.tar.gz",
+    "vue-class-component": "^7.0.1",
+    "vue-ctk-date-time-picker": "^2.0.9",
+    "vue-property-decorator": "^8.0.0",
+    "vue-router": "^3.0.2",
+    "vuejs-datepicker": "^1.5.4",
+    "vuex": "^3.1.0",
+    "vuex-persistedstate": "^2.5.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-service": "^3.5.1",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.29.6"
+  }
+}
