@@ -1,0 +1,158 @@
+<template>
+  <div>
+    <div class="row search-list-container ioo-no-gutters">
+      <div class="col-4 pl-0">
+        <div class="row ioo-no-gutters">
+          <div class="col-3 pl-0 pr-0">
+            <div class="list-avatar-block">
+              <img src="@/assets/md-thumb-img.jpg">
+            </div>
+          </div>
+          <div class="col-9 ioo-pl-20">
+            <h6
+              v-text="this.ListItem.ProductModel.Product.Title"
+              v-bind:title="this.ListItem.ProductModel.Product.Title"
+            ></h6>
+            <span v-text="this.ListItem.ProductModel.Product.Id"></span>
+            <span class="list-dropdown-text">
+              <sana-dropdown
+                v-bind:DataList="this.getGlobleInventoryCheckTypes"
+                IdField="Id"
+                TextField="Title"
+                DefaultText="Select Type"
+                DefaultTextSanaTextKey="IOO_GlobalInventoryCheck_Type_DefaultText"
+              ></sana-dropdown>
+            </span>
+            <div class="ioo-clearfix">
+              <template v-if="!this.hasCrossReference">
+                <span>
+                  {{this.GetSanaText("CrossReference","Cross Reference:")
+                  + this.ListItem.CrossReferenceNumber}}
+                </span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 ioo-dpl-55">
+        <div class="d-inline-flex">
+          <div class="v-center-block pr-4 stext-li-container">
+            <!-- stock indicator -->
+            <sana-stock v-bind:StockModel="stockModel"></sana-stock>
+          </div>
+          <div class="v-center-btn-block pr-4">
+            <button
+              class="ioo-sm-btn check-inv-btn"
+              type="button"
+              data-toggle="modal"
+              data-target="#inventoryCheck"
+            >Check Inventory</button>
+          </div>
+          <div class="v-center-block pr-4 sprice-li-container">
+            <span class="list-price-text">
+              <sana-price
+                v-bind:title="this.GetSanaText('IOO_Net_Price','Net Price')"
+                v-bind:Price="this.ListItem.NetPrice"
+              ></sana-price>
+              <small>
+                <sana-price
+                  v-bind:title="this.GetSanaText('IOO_Gross_Price','Gross Price')"
+                  v-bind:Price="this.ListItem.GrossPrice"
+                ></sana-price>
+              </small>
+            </span>
+          </div>
+          <!-- Qty box -->
+          <sana-qty-box v-bind:QuantityModel="null"></sana-qty-box>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <div class="v-center-btn-block">
+              <sana-button
+                BtnClass="ioo-btn ioo-btn-primary"
+                BtnTextClass="btn-text"
+                v-bind:BtnId="getComponentId('btn',this.ListItem.ProductModel.Product.Id)"
+                BtnTitle="Add to basket"
+                BtnTitleSanaTextKey="I00_AddtoBasketTitle"
+                BtnText="Add to basket"
+                BtnTextSanaTextKey="I00_AddtoBasketTitle"
+                BtnPostTextClass="btn-cart-white"
+              ></sana-button>
+            </div>
+          </div>
+          <div class="col-6 ioo-pr-20 pl-0">
+            <div class="v-center-btn-block">
+              <sana-link-button
+                v-bind:BtnId="getComponentId('linkbtn',this.ListItem.ProductModel.Product.Id)"
+                BtnClass="ioo-btn ioo-btn-default"
+                BtnTextClass="btn-text"
+                BtnTitle="Details"
+                BtnTitleSanaTextKey="I00_DetailsButtonTitle"
+                BtnText="Details"
+                BtnTextSanaTextKey="I00_DetailsButtonText"
+                BtnRouteName="details"
+                v-bind:BtnRouteParms="{ Id: this.ListItem.ProductModel.Product.Id}"
+              ></sana-link-button>
+              <!-- eslint-disable max-len -->
+              <button class="ioo-btn ioo-btn-default" v-on:click="this.viewListItem">View List Item</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+import Stockindicator from "../shared/ui/StockIndicator.vue";
+import Dropdown from "../shared/ui/Dropdown.vue";
+import Button from "../shared/ui/Button.vue";
+import LinkButton from "../shared/ui/LinkButton.vue";
+
+export default {
+  name: "ProductListItem",
+  components: {
+    "sana-qty-box": QtyBox,
+    "sana-price": PriceLabel,
+    "sana-stock": Stockindicator,
+    "sana-dropdown": Dropdown,
+    "sana-button": Button,
+    "sana-link-button": LinkButton
+  },
+  props: {
+    ListItem: {
+      type: Object
+    }
+  },
+  // created: {},
+  computed: {
+    stockModel() {
+      return this.ListItem ? this.ListItem.Stock : {};
+    },
+    hasCrossReference() {
+      return !!(this.ListItem && this.ListItem.CrossReferenceNumber !== "");
+    },
+    getGlobleInventoryCheckTypes() {
+      return this.ListItem
+        && this.ListItem.ProductModel
+        && this.ListItem.ProductModel.ProductType
+        && this.ListItem.ProductModel.ProductType.length > 0
+        ? this.ListItem.ProductModel.ProductType
+        : [];
+    }
+  },
+  methods: {
+    viewListItem() {
+      console.log("List Item:", this.ListItem);
+      return "101";
+    },
+    getComponentId(component, key) {
+      return `${component}_${key}`;
+    }
+  }
+};
+</script>

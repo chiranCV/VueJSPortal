@@ -1,0 +1,58 @@
+<template>
+  <div class="v-center-btn-block auro-increment-input">
+    <input
+      type="number"
+      v-model.number="Qty"
+      v-bind:min="Min"
+      v-bind:max="Max"
+      v-bind:step="Step"
+      v-on:blur=" onQtyChange($event.target.value)"
+      name="quantity"
+      v-bind:disabled="IsDisabled"
+    >
+  </div>
+</template>
+<script>
+export default {
+  name: "QuantityBox",
+  props: {
+    QuantityModel: {
+      type: Object,
+      required: false
+    },
+    IsDisabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      Min: 0,
+      Max: 10,
+      Step: 1,
+      Qty: 0
+    };
+  },
+  mounted() {
+    this.processQuantityModel();
+  },
+  methods: {
+    processQuantityModel() {
+      if (this.QuantityModel) {
+        this.Min = this.QuantityModel.Minimum;
+        this.Step = this.QuantityModel.Step;
+        this.Max = this.QuantityModel.Maximum;
+        this.Qty = this.QuantityModel.Current
+          ? this.QuantityModel.Current
+          : this.QuantityModel.Min;
+      }
+    },
+    onQtyChange(value) {
+      if (this.Qty !== value) {
+        this.Qty = value;
+        this.$emit("onQuantityChange", this.Qty);
+      }
+    }
+  }
+};
+</script>

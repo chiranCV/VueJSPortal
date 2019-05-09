@@ -1,0 +1,41 @@
+// API Authentication Actions.
+
+import { FETCH_AUTH_TOEKN } from "../../action-types";
+import { SAVE_AUTH_TOKEN_SATE, CLEAR_AUTH_TOKEN } from "../../mutation-types";
+import authApi from "../../../api/authentication-api";
+import sesionManager from "../../../helpers/session-manager";
+import appConfig from "../../../config.json";
+import router from "../../../router";
+
+export default {
+  // fetch current basket result
+  [FETCH_AUTH_TOEKN]: (context, HeaderOptions) =>
+    new Promise((resolve, reject) => {
+      const headerOptions = HeaderOptions;
+      // isValidToken does not exist, means cookie has expeired
+      if (!sesionManager.chekcCookieExsitst(appConfig.Cookiekeys.IsValidToken)) {
+        // if cookie has expired, request the new token from refresh_token
+        const authToken = context.getters.GET_AUTH_TOKEN;
+        if (authToken && authToken.refresh_token) {
+          headerOptions.grantType = "refresh_token";
+          headerOptions.refresh_token = authToken.refresh_token;
+        }
+        authApi
+          .getToken(headerOptions)
+          .then((token) => {
+            context.commit(SAVE_AUTH_TOKEN_SATE, token);
+            sesionManager.setCookie(appConfig.Cookiekeys.IsValidToken, true, token.expires_in);
+            resolve();
+          })
+          .catch((error) => {
+            // on error, clear the value of refreshToken from state
+            context.commit(CLEAR_AUTH_TOKEN);
+            router.go();
+            reject();
+            throw error;
+          });
+      } else {
+        resolve();
+      }
+    })
+};

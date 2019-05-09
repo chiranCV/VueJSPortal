@@ -1,0 +1,254 @@
+@mixin button($backgroundcolor,$rounded, $fontfamily) {
+  
+}
+
+  .zfbtn {
+    font-family: "Verdana", sans-serif;
+    border-radius: 29px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .primaryBtn {
+    width: 115px;
+    min-height: 52px;
+    background-color: $zf-color-cyan;
+    font-size: 18px;
+    line-height: 24px;
+    border: none;
+    color: #fff;
+    &:hover {
+      background-color: #00729a;
+      color: #fff;
+    }
+  }
+  
+  .primaryBtnTwoLines {
+    width: 115px;
+    min-height: 52px;
+    background-color: $zf-color-cyan;
+    font-size: 16px;
+    line-height: 20px;
+    border: none;
+    color: #fff;
+    &:hover {
+      background-color: #00729a;
+      color: #fff;
+    }
+  }
+
+  .primaryBtnDisable {
+    min-height: 52px;
+    background-color: $zf-color-btn-disable;
+    font-size: 18px;
+    padding: 24px;
+    border: none;
+    color: #fff;
+  }
+
+  .secondryBtnTwoLines {
+    min-height: 52px;
+    background-color: #fff;
+    border: 1px solid $zf-color-cyan;
+    font-size: 16px;
+    padding: 20px;
+    color: $zf-color-cyan;
+  }
+
+  .secondryBtn {
+    min-height: 52px;
+    background-color: #fff;
+    border: 1px solid $zf-color-cyan;
+    font-size: 18px;
+    padding: 24px;
+    color: $zf-color-cyan;
+
+    &:hover {
+      background-color: $zf-color-cyan;
+      color: #fff;
+    }
+  }
+  .secondryBtnList {
+    width: 145px;
+    min-height: 37px;
+    background-color: #fff;
+    border: 1px solid $zf-color-cyan;
+    font-family: "Verdana", sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: $zf-color-cyan;
+
+    &:hover {
+      background-color: $zf-color-cyan;
+      color: #fff;
+    }
+  }
+  .secondryBtnDisable {
+    min-height: 52px;
+    background-color: #fff;
+    border: 1px solid $zf-color-btn-disable;
+    font-size: 18px;
+    padding: 24px;
+    color: $zf-color-btn-disable;
+  }
+
+  // text icon btn
+  .primaryBtnSearchI {
+    width: 150px;
+    min-height: 52px;
+    background-color: $zf-color-cyan;
+    font-size: 18px;
+    line-height: 24px;
+    border: none;
+    color: #fff;
+    position: relative;
+
+    &:before {
+      content: " ";
+      background-image: url("/../assets/search.png");
+      background-repeat: no-repeat;
+      width: 23px;
+      height: 23px;
+      position: absolute;
+      left: 20px;
+    }
+
+    &:hover {
+      background-color: #00729a;
+      color: #fff;
+    }
+  }
+
+  .secondryBtnSearchI {
+    width: 155px;
+    min-height: 37px;
+    background-color: #fff;
+    border: 1px solid $zf-color-cyan;
+    font-size: 14px;
+    line-height: 16px;
+    color: $zf-color-cyan;
+    position: relative;
+
+    &:before {
+      content: " ";
+      background-image: url("/../assets/search.png");
+      background-repeat: no-repeat;
+      width: 23px;
+      height: 23px;
+      position: absolute;
+      left: 20px;
+    }
+
+    &:hover {
+      background-color: $zf-color-cyan;
+      color: #fff;
+    }
+  }
+
+  .cartBtnI {
+    width: 156px;
+    min-height: 37px;
+    background-color: #fff;
+    border: 1px solid $zf-color-cyan;
+    font-size: 12px;
+    line-height: 22px;
+    color: $zf-color-cyan;
+    position: relative;
+    padding-left: 33px;
+
+
+    &:hover {
+      background-color: $zf-color-cyan;
+      color: #fff;
+    }
+  }
+  .secondryCartBtnI {
+    width: 151px;
+    min-height: 37px;
+    background-color: $zf-color-cyan;
+    border: none;
+    font-size: 14px;
+    line-height: 16px;
+    color: #fff;
+    position: relative;
+    padding: 8px 15px;
+    text-align: left;
+    padding-bottom: 10px;
+
+ 
+
+    &:hover {
+      background-color: $zf-color-cyan-hover;
+      color: #fff;
+    }
+  }
+  .SearchBtnI {
+    width: 116px;
+    min-height: 37px;
+    background-color: $zf-color-cyan;
+    border: none;
+    font-size: 14px;
+    line-height: 16px;
+    color: #fff;
+    position: relative;
+    border-radius: 0;
+    padding-left: 20px;
+    text-align: left;
+    &:hover {
+      background-color: $zf-color-cyan-hover;
+      color: #fff;
+    }
+  }
+ 
+  .btnIcon {
+    top: 1px;
+    display: inline-block;
+    font-family: "Glyphicons Halflings";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    &.whiteIcCart {
+    
+        &:after {
+          content: " ";
+          background-image: url("/../assets/icon-cart-white.png");
+          background-repeat: no-repeat;
+          width: 23px;
+          height: 23px;
+          position: absolute;
+          right: 6px;
+          top: 11px;
+        }
+      
+    }
+   &.blueIcCart {
+    &:before {
+      content: " ";
+      background-image: url("/../assets/cart-basket.svg");
+      background-repeat: no-repeat;
+      width: 23px;
+      height: 23px;
+      position: absolute;
+      left: 14px;
+    top: 10px;
+    }
+   } 
+   &.whiteIcSearch {
+    &:before {
+      content: " ";
+      background-image: url("/../assets/search-white.svg");
+      background-repeat: no-repeat;
+      width: 18px;
+      height: 18px;
+      position: absolute;
+      right: 15px;
+      top: 11px;
+    }
+   }
+  
+  }
+

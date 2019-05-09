@@ -1,0 +1,36 @@
+{
+  "APIMethods": {
+    "Product": {
+      "Search": "/product/Search",
+      "Details": "/product/DetailsPage",
+      "GlobalInventory": "/inventory/CheckGlobalInventory",
+      "LastViewdItems": "/product/GetLastViewedProducts",
+      "SearchSuggesions": "/product/SearchSuggestions"
+    },
+    "Common": {
+      "DisableDates": "/basket/GetBlockedDates",
+      "SanaText": "/common/GetSanaTexts",
+      "SiteSettings": "/common/GetSiteSettings",
+      "ZFSettings": "/common/GetZFSettings",
+      "ShopContext": "/common/GetSanaShopContext"
+    },
+    "Basket": {
+      "CurrentBasket": "/basket/GetCurrentBasketModel",
+      "CurrentBasketOld": "/invokegetcurrentbasketmodel",
+      "UpdateBasket": "/basket/UpdateAndGetBasketModel",
+      "AddProductTobasket": "/basket/AddItemsToBasket",
+      "ClearBasket": "/basket/ClearBasket"
+    },
+    "Customer": {
+      "GetAccounts": "/authorization/GetAccounts"
+    }
+  },
+  "Cookiekeys": {
+    "SanaText": "ioo_sanatext",
+    "SapId": "sapId"
+  },
+  "DEV_ENV_SanaUrl": "http://sana.webapi/api",
+  "BETA_ENV_SanaUrl": "http://frdv01843.emea.zf-world.com/en-us/zfapi_",
+  "LIVE_ENV_SanaUrl": "http://zf.corp.ism.nl/en-us/zfapi_",
+  "MaxLastviewedToKeep": 5
+}

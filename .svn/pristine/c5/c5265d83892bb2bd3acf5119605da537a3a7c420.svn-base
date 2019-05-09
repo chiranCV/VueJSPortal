@@ -1,0 +1,169 @@
+<template>
+  <div>
+    <div class="input-group search-container">
+      <input
+        v-model="searchQery"
+        v-on:keyup.enter="onSearchButtonClick"
+        type="text"
+        class="form-control"
+        v-bind:placeholder="this.GetSanaText('IOO_SearchBox_PlaceHolder','Product name or item number')"
+        aria-label="Product name or item number"
+        aria-describedby="basic-addon2"
+        :maxlength="50"
+      >
+      <!--  v-on:blur="closeQuickSerchPopup" -->
+      <div class="input-group-append">
+        <button
+          class="ioo-btn ioo-btn-primary no-edge"
+          v-on:click="onSearchButtonClick"
+          v-bind:disabled="searchQery === ''"
+        >
+          <span class="btn-inner">
+            <span class="btn-text">Search</span>
+            <span class="btn-search-icon"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+    <div
+      v-bind:class="suggestionListCss"
+      v-show="showQuickResult && searchQery != ''"
+      v-click-outside="closeQuickSerchPopup"
+    >
+      <div v-for="(item,index) in suggestionList" v-bind:key="index">
+        <a class="list-group-item" v-on:click="onClickItem(item.Id)">
+          <img src="@/assets/autocomplete-thumb-img.jpg">
+          <p>
+            <Highlighter
+              highlightClassName="mark"
+              :searchWords="keywords"
+              :autoEscape="true"
+              :textToHighlight="item.Title + ' - ' + item.Id"
+            />
+          </p>
+        </a>
+        <hr v-show="(index === (suggestionList.length - 1))" class="border-line">
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { mapActions } from "vuex";
+import Highlighter from "vue-highlight-words";
+import { FETCH_SEARCH_SUGGESTIONS } from "../../../store/action-types";
+
+export default {
+  name: "SearchBox",
+  components: {
+    Highlighter
+  },
+  data() {
+    return {
+      showQuickResult: false,
+      searchQery: "",
+      suggestionList: [],
+      suggestionListCss:
+        "typeahead-dropdown list-group-empty list-group show-list"
+    };
+  },
+  created() {
+    const { query } = this.$route.query;
+    if (query && query !== "") {
+      this.searchQery = query.substring(0, 50);
+    }
+  },
+  computed: {
+    keywords() {
+      return this.searchQery.split(" ");
+    }
+  },
+  watch: {
+    searchQery(newValue, oldValue) {
+      if (newValue !== "" && newValue !== oldValue && newValue.length > 3) {
+        this.getSearchSuggestions(newValue);
+      } else {
+        this.suggestionList = [];
+        this.closeQuickSerchPopup();
+      }
+    }
+  },
+  methods: {
+    ...mapActions("products", {
+      fetchSearchSuggetions: FETCH_SEARCH_SUGGESTIONS
+    }),
+    onSearchButtonClick() {
+      if (this.searchQery === undefined || this.searchQery === "") return;
+      const searchterm = this.searchQery;
+      this.$emit("onSearch", searchterm);
+    },
+    closeQuickSerchPopup() {
+      this.showQuickResult = false;
+    },
+    getSearchSuggestions(searchquery) {
+      const searchOptions = { query: searchquery, pagesize: 5 };
+      const csss = "typeahead-dropdown list-group-empty list-group show-list";
+      this.fetchSearchSuggetions(searchOptions).then((result) => {
+        if (result) {
+          if (result.Data && result.Data.length >= 5) {
+            this.suggestionListCss = "typeahead-dropdown list-group show-list ";
+          } else {
+            this.suggestionListCss = csss;
+          }
+          this.suggestionList = result.Data;
+        }
+
+        if (result && result.Data.length === 0) {
+          this.closeQuickSerchPopup();
+        }
+      });
+      this.showQuickResult = true;
+    },
+    onClickItem(productid) {
+      this.$router.push({ name: "Detail", params: { id: productid } });
+    }
+  },
+
+  // declarative for "click-outside" evcnt for div elements.
+  directives: {
+    "click-outside": {
+      bind(el, binding, vNode) {
+        // Provided expression must evaluate to a function.
+        const element = el;
+        if (typeof binding.value !== "function") {
+          const compName = vNode.context.name;
+          let warn = `[Vue-click-outside:] provided expression '${
+            binding.expression
+          }' is not a function, but has to be`;
+          if (compName) {
+            warn += `Found in component '${compName}'`;
+          }
+          console.warn(warn);
+        }
+        // Define Handler and cache it on the element
+        const { bubble } = binding.modifiers;
+        const handler = (e) => {
+          if (bubble || (!element.contains(e.target) && element !== e.target)) {
+            binding.value(e);
+          }
+        };
+        element.vueClickOutside = handler;
+
+        // add Event Listeners
+        document.addEventListener("click", handler);
+      },
+
+      unbind(el) {
+        // Remove Event Listeners
+        const element = el;
+        document.removeEventListener("click", element.vueClickOutside);
+        element.vueClickOutside = null;
+      }
+    }
+  }
+};
+</script>
+<style scoped>
+mark {
+  font-weight: bold;
+}
+</style>

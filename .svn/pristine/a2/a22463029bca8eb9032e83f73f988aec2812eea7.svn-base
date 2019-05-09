@@ -1,0 +1,186 @@
+<template>
+  <div class="app-wrapper">
+    <div class="container">
+      <div class="iooContainer">
+        <div class="row">
+          <div class="col-md-6">
+            <h1 class="mb-0 h2">Search Result</h1>
+            <!-- <h2 class="colorPrimary h2">Look now for products</h2> -->
+          </div>
+          <div class="col-md-6">
+            <a href="#" class="online-shop-link-txt">
+              <span class="online-shop-link-txt-img">
+                <img src="@/assets/arrow-left.svg" class="img-fluid">
+              </span>
+              <a href="#/">
+                <span>
+                  Online Shop
+                  <br>Overview
+                </span>
+              </a>
+            </a>
+            <div class="dropdown cart-dropdown-container">
+              <!-- <button class="zfbtn cartBtnI "
+              type="button" data-toggle="dropdown">3 Products(s)
+              </button>-->
+              <button class="ioo-btn ioo-btn-default">
+                <section>
+                  <span class="btn-cart"></span>
+                  <span class="btn-text">3 Products(s)</span>
+                </section>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="ioo-mb-20">
+                  <!-- eslint-disable max-len -->
+                  <p class="font-weight-bold">The following has been added to your shopping basket.</p>
+                </li>
+                <li>
+                  <div class="row">
+                    <div class="col-md-5 ioo-pr-10">
+                      <img class="drop-down-img" alt="108 * 78" src="@/assets/sm-thumb-img.jpg">
+                    </div>
+                    <div class="col-md-7 ioo-pl-10">
+                      <p>Brake Disc</p>
+                      <div class="colorBlackLight smFont">3311302 029 01 (Standard)</div>
+                      <div class="font-weight-bold smFont mt-3">3 Pieces</div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button
+                        class="ioo-btn ioo-btn-primary primaryBtnCheckouti"
+                        data-toggle="dropdown"
+                      >
+                        <section>
+                          <span class="btn-text">Checkout</span>
+                          <span class="btn-arrow-right"></span>
+                        </section>
+                      </button>
+                      <!-- <button class="zfbtn primaryBtnCheckouti "
+                      type="button" data-toggle="dropdown">Checkout</button>-->
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="cus-info-block">
+              <h6>
+                Customer 123456
+                <img class="iconWarn" src="@/assets/icon-warning.png">
+              </h6>
+              <div>
+                <a class="zfbtn ioo-pt-2" data-toggle="dropdown">
+                  Change
+                  <span class="downArrow"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <div class="form-group search-block">
+                      <img class="img-fluid" src="@/assets/search-left.png">
+                      <input type="text">
+                    </div>
+                  </li>
+                  <li>
+                    <ul class="application-list-block">
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                      <li>
+                        <a>8373940 | Test Company, Division Sweden</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <button class="zfbtn primaryBtn" type="button">Go to application Overview</button>
+                  </li>
+                </ul>
+                <div class="hr-seprator"></div>
+                <a class="ioo-pt-2">Manage Account</a>
+              </div>
+            </div>
+          </div>
+        </div></div>
+        <!-- Content Goes Here -->
+        <div class="product-details-page">
+          <div class="row">
+            <div class="col-5">
+              <div class="product-image">
+                <img src="../../assets/sm-thumb-img.jpg" alt="" srcset="">
+              </div>
+            </div>
+            <div class="col-7">
+              <div class="product-info">
+                <div class="product-title"><h3 class="font-bold">Brake Disk</h3></div>
+                <div class="item-number">
+                  <div class="row">
+                    <div class="col-2">Item No.</div>
+                    <div class="col-10">3311 302 02688</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                    <span>Net weight:</span><span>100 lbs</span> | <span>Gross weight:</span><span> 110 lbs</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">Price</div>
+                    <div class="col-8">
+                      <h5>$ 15.00</h5>
+                      <span>Price per Pieces excl. tax</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <button class="ioo-btn ioo-btn-default no-edge">
+                        <span class="btn-inner">
+                          <span class="btn-text">Check Inventory</span>
+                          <span class="btn-arrow-right"></span>
+                        </span>
+                      </button>
+                    </div>
+                    <div class="col-8">
+                      <button class="ioo-btn ioo-btn-primary no-edge">
+                        <span class="btn-inner">
+                          <span class="btn-text">Add to basket</span>
+                          <span class="btn-arrow-right"></span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="item-info">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Content Goes Here -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="dottedBorderBlock">
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  name: "ProductDetail"
+};
+</script>

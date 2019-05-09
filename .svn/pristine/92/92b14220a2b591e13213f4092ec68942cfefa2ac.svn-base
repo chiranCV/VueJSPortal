@@ -1,0 +1,43 @@
+<template>
+  <div class="app-wrapper iooContainer">
+    <div class="container">
+      <div>
+        <router-view/>
+        <!--<div class="list-loading-block">
+          <span>
+            <img class="img-fluid" src="@/assets/loading.gif">
+          </span>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import AuthHelper from "./helpers/authentication-helper";
+import GlobalHelper from "./helpers/GlobalHelper";
+
+export default {
+  name: "app",
+  // Life sycle hooks.
+  data() {
+    return {
+      refreshTokenExpired: false
+    };
+  },
+  created() {
+    AuthHelper.createShopStatusCookie();
+    const route = this.$route;
+    if (route && route.name !== "Error") {
+      GlobalHelper.getCustomerSelectionBaseData();
+    }
+  },
+  computed: {
+    showLoadingDialog() {
+      return this.$store.state.isLoading;
+    }
+  },
+  mounted() {}
+};
+</script>
+<style lang="scss">
+</style>

@@ -1,0 +1,59 @@
+// Boostrap Typeahead CSS
+.typeahead-dropdown  {
+  width: 543px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: #bfbfbf;
+  float: left;
+  position: absolute;
+  height: 430px;
+  overflow: auto;
+  &.list-group-empty {
+    height: auto;
+  }
+  .auto-Complete-header {
+    font-weight: bold;
+    color: $black;
+    padding: 10px 0 20px 0;
+  }
+  &.show-list {
+    z-index: 101;
+  display: block
+  }
+  &.hide-list {
+    z-index: 101;
+  display: block
+  }
+  .list-group-item {
+    border-radius: 0;
+    border-width: 0;
+    border-style: solid;
+    border-color: #bfbfbf;
+    width: 100%;
+    padding: 6px 15px 20px 15px;
+    img {
+      width: 50px;
+      float: left;
+      margin-right: 15px;
+    }
+ p {
+   margin-bottom: 0px;
+   color: $black;
+   padding-top: 9px;
+   font-size: 13px;
+ }
+ span {
+  color: $black;
+ }
+  } 
+}
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.typeahead {
+  position: relative;
+}

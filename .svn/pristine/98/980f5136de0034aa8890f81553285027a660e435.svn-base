@@ -1,0 +1,64 @@
+<template>
+  <div class="grid-carousel-wrapper product-grid-container">
+    <div class="grid-carousel--nav__left" @click="moveCarousel(-1)" :disabled="atHeadOfList"></div>
+    <div class="grid-carousel">
+      <div class="grid-carousel--overflow-container">
+        <div
+          class="grid-carousel-cards"
+          :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')'}"
+        >
+          <!-- <div class="card-carousel--card" v-for="(item,index) in items" v-bind:key="index">
+            <img src="https://placehold.it/200x200">
+            <div class="card-carousel--card--footer">
+              <p>{{ item.name }}</p>
+              <p>{{ item.tag }}</p>
+            </div>
+          </div>-->
+            <slot></slot>
+        </div>
+      </div>
+    </div>
+    <div class="grid-carousel-nav-container right-nav-container">
+    <div class="grid-carousel--nav__right" @click="moveCarousel(1)" :disabled="atEndOfList"></div></div>
+  </div>
+</template>
+<script>
+export default {
+  name: "carosel",
+  props: {
+    listSize: {
+      type: Number,
+      default: 0
+    }
+  },
+  data() {
+    return {
+      currentOffset: 0,
+      windowSize: 3,
+      paginationFactor: 220
+    };
+  },
+  computed: {
+    atEndOfList() {
+      return (
+        this.currentOffset
+        <= this.paginationFactor * -1 * (this.listSize - this.windowSize)
+      );
+    },
+    atHeadOfList() {
+      return this.currentOffset === 0;
+    }
+  },
+  methods: {
+    moveCarousel(direction) {
+      // Find a more elegant way to express the :style.
+      // consider using props to make it truly generic
+      if (direction === 1 && !this.atEndOfList) {
+        this.currentOffset -= this.paginationFactor;
+      } else if (direction === -1 && !this.atHeadOfList) {
+        this.currentOffset += this.paginationFactor;
+      }
+    }
+  }
+};
+</script>

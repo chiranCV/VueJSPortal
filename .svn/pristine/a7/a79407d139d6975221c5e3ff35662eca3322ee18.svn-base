@@ -1,0 +1,19 @@
+<template>
+  <div>
+    search result
+    <sana-qtybox></sana-qtybox>
+  </div>
+</template>
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+
+export default {
+  name: "ProductList",
+  components: {
+    "sana-qtybox": QtyBox
+  },
+  methods: {
+    mounted() {}
+  }
+};
+</script>

@@ -1,0 +1,64 @@
+<template>
+  <div class="app-wrapper iooContainer">
+    <div class="container">
+      <div v-show="refreshTokenExpired">
+        <h3>Session has expired!!!.</h3>
+        <strong>Please wait until data reload...</strong>
+      </div>
+      <div v-show="!refreshTokenExpired">
+        <router-view/>
+        <!--<div class="list-loading-block">
+          <span>
+            <img class="img-fluid" src="@/assets/loading.gif">
+          </span>
+        </div>-->
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import AuthHelper from "./helpers/authentication-helper";
+import SesionManager from "./helpers/session-manager";
+import GlobalHelper from "./helpers/GlobalHelper";
+import appConfig from "./config.json";
+
+export default {
+  name: "app",
+  // Life sycle hooks.
+  data() {
+    return {
+      refreshTokenExpired: false
+    };
+  },
+  created() {
+    AuthHelper.createShopStatusCookie();
+    GlobalHelper.getCustomerSelectionBaseData();
+  },
+  computed: {
+    showLoadingDialog() {
+      return this.$store.state.isLoading;
+    }
+  },
+  mounted() {
+    if (
+      SesionManager.chekcCookieExsitst(appConfig.Cookiekeys.RefreshTokenExpired)
+    ) {
+      const cookie = SesionManager.getCookie(
+        appConfig.Cookiekeys.RefreshTokenExpired
+      );
+      if (cookie) {
+        this.refreshTokenExpired = true;
+        setTimeout(() => {
+          SesionManager.setCookie(
+            appConfig.Cookiekeys.RefreshTokenExpired,
+            false
+          );
+          this.refreshTokenExpired = false;
+        }, 5000);
+      }
+    }
+  }
+};
+</script>
+<style lang="scss">
+</style>

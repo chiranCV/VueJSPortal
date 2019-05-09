@@ -1,0 +1,57 @@
+<template>
+  <sana-dropdown
+    v-bind:DataList="this.languages"
+    IdField="Id"
+    TextField="Text"
+    v-bind:PreSelectedItemId="this.selectedItemId"
+    v-on:onChangeSelection="onChangeSelection"
+  ></sana-dropdown>
+</template>
+
+<script>
+import GlobalHelper from "../../helpers/GlobalHelper";
+import Dropdown from "./ui/Dropdown.vue";
+
+export default {
+  name: "LanguageSelector",
+  components: {
+    "sana-dropdown": Dropdown
+  },
+  data() {
+    return {
+      languages: [],
+      selectedItemId: ""
+    };
+  },
+  created() {
+    this.getSortOptions();
+    this.selectedItemId = GlobalHelper.GetLanguageId();
+  },
+  methods: {
+    getSortOptions() {
+      const items = [];
+
+      const languagesArray = [
+        { Name: "1031", Title: "de-de" },
+        { Name: "1033", Title: "en-us" },
+        { Name: "1043", Title: "nl-nl" }
+      ];
+
+      if (languagesArray.length > 0) {
+        languagesArray.forEach((item) => {
+          items.push({
+            Id: item.Name,
+            Text: item.Title ? item.Title : item.Name,
+            InnerHtml: ""
+          });
+        });
+      }
+      this.languages = items;
+      return this.languages;
+    },
+    onChangeSelection(data) {
+      GlobalHelper.SetLanguageId(data.Id);
+    }
+  }
+};
+</script>

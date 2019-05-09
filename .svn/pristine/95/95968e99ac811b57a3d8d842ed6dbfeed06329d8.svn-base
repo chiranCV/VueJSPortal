@@ -1,0 +1,6 @@
+// product action types
+export const FETCH_SEARCH_RESULT = "FETCH_SEARCH_RESULT";
+export const FETCH_PRODUCT_DETAIL = "FETCH_PRODUCT_DETAIL";
+
+// content action types
+export const FETCH_ALL_SANATEXT = "FETCH_ALL_SANATEXT";

@@ -1,0 +1,9 @@
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+
+  .cus-info-block {
+    position: relative;
+    .dropdown-menu {
+      right: 0;
+    }
+  }
+}

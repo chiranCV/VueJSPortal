@@ -1,0 +1,1081 @@
+
+  .cart-dropdown-container {
+    float: left;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-left: 30px;
+
+    ul {
+      width: 318px;
+      padding: 20px;
+    }
+
+    .primaryBtnCheckouti {
+      margin-top: 20px;
+    }
+  }
+
+  .cusInfoBlock {
+    display: table;
+    float: right;
+
+    .zfbtn {
+      padding-right: 15px;
+    }
+
+    .dropdown-toggle {
+      float: left;
+    }
+
+    .iconWarn {
+      width: 18px;
+      position: relative;
+      top: -2px;
+      margin: 0 5px;
+    }
+
+    .downArrow {
+      position: relative;
+
+      &:before {
+        content: "";
+        background-image: url("/../assets/arrow-blue-down.svg");
+        background-repeat: no-repeat;
+        width: 11px;
+        height: 6px;
+        position: absolute;
+        left: 48px;
+        top: 8px;
+      }
+    }
+
+    .dropdown-menu {
+      width: 410px;
+      padding: 20px 10px 20px 20px;
+
+      .searchBlock {
+        position: relative;
+        margin-bottom: 25px;
+
+        img {
+          width: 18px;
+          position: absolute;
+          bottom: 8px;
+          left: 12px;
+        }
+
+        input {
+          border-width: 0px 0px 1px 0px;
+          border-color: #f2f2f2;
+          border-radius: 0;
+          height: 39px;
+          width: 100%;
+          padding-left: 40px;
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+
+      .applicationListBlock {
+        padding-left: 0;
+        list-style: none;
+        max-height: 275px;
+        overflow-y: auto;
+        padding-right: 20px;
+        li {
+          a {
+            width: 100%;
+            font-family: "Verdana", sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 16px;
+            text-align: center;
+            border: 1px solid #bfbfbf;
+            margin-top: 10px;
+            color: $zf-color-cyan;
+            padding: 10px;
+            margin: 0 0 20px 0;
+          }
+        }
+      }
+
+      .primaryBtn {
+        width: 90%;
+        font-family: "Verdana", sans-serif;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        min-height: 37px;
+        margin: 20px 0 0 0;
+      }
+    }
+  }
+
+  .searchContainer {
+    margin-top: 80px;
+    input {
+      height: 39px;
+      font-family: "Verdana", sans-serif;
+      border-radius: 0 !important;
+      font-size: 14px;
+      line-height: 16px;
+    }
+  }
+
+  .listActionContainer {
+    margin-top: 50px;
+    margin-bottom: 40px;
+
+    ul {
+      list-style: none;
+
+      li {
+        float: left;
+
+        &:nth-child(2) {
+          margin: 0px 20px;
+        }
+
+        .textView {
+          padding-top: 3px;
+        }
+      }
+    }
+
+    .viewListGridBlock {
+      float: left;
+    }
+
+    .sortByContainer {
+      float: right;
+      display: inline-flex;
+      padding-left: 15px;
+
+      p {
+        padding-top: 3px;
+        padding-right: 20px;
+      }
+
+      .dropdown {
+        top: -7px;
+
+        .btn {
+          width: 250px;
+          border: 1px solid #bfbfbf;
+          padding: 0;
+          background-color: transparent;
+          text-align: left;
+
+          span {
+            color: $black;
+            padding: 10px;
+            position: relative;
+            top: 6px;
+            font-family: Arial;
+            font-size: 14px;
+            line-height: 16px;
+          }
+        }
+        ul {
+          padding-left: 0;
+          list-style: none;
+          padding: 10px 15px;
+
+          li {
+            width: 100%;
+            float: left;
+            padding: 10px 0px;
+            margin: 0;
+            position: relative;
+            a {
+              color: $black;
+              font-family: Arial;
+              font-size: 14px;
+              line-height: 16px;
+              img {
+                padding-left: 5px;
+                width: 18px;
+              }
+            }
+          }
+        }
+      }
+
+      .downArrow {
+        position: relative;
+        background-color: #7f7f7f;
+        width: 40px;
+        height: 39px;
+        float: right;
+
+        &:before {
+          content: "";
+          background-image: url("/../assets/arrow-white-down.svg");
+          background-repeat: no-repeat;
+          width: 11px;
+          height: 6px;
+          position: absolute;
+          left: 16px;
+          top: 18px;
+        }
+      }
+    }
+  }
+
+  .searchListContainer {
+    
+    border: 1px solid $black-lighter;
+    margin-bottom: 20px;
+
+    h6 {
+      line-height: 23px;
+      padding-top: 10px;
+      max-width: 12vw;
+      white-space: nowrap;
+      overflow: hidden !important;
+      text-overflow: ellipsis;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      width: 100%;
+      margin-bottom: 0;
+
+      li {
+        float: left;
+        padding-right: 21px;
+      }
+    }
+
+    span {
+      float: left;
+    }
+
+    .listAvatarBlock {
+      background-color: #f2f2f2;
+      padding: 8px 12px;
+      border-right: 1px solid $black-lighter;
+
+      img {
+        max-width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    a {
+      color: $black-light;
+    }
+
+    .listDropDownText {
+      padding-bottom: 5px;
+      position: relative;
+
+      .zfbtn {
+        padding-left: 20px;
+      }
+      ul {
+        width: 1vw;
+        min-width: 65px;
+        padding-bottom: 0;
+        padding: 0;
+        right: -10px;
+        left: auto !important;
+        li {
+          width: 100%;
+          padding: 5px;
+        }
+      }
+    }
+
+    .downArrow {
+      &:before {
+        content: "";
+        background-image: url("/../assets/arrow-blue-down.svg");
+        background-repeat: no-repeat;
+        width: 11px;
+        height: 6px;
+        position: absolute;
+        right: -15px;
+        top: 5px;
+      }
+    }
+
+    .vCenterBlock {
+      padding-top: 30px;
+    }
+
+    .vCenterBtnBlock {
+      padding-top: 20px;
+    }
+
+    .listPriceText {
+      font-family: Arial;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 18px;
+      text-align: right;
+      color: #000000;
+    }
+    .auroincrementInput {
+      input {
+        padding: 5px;
+        text-align: center;
+      }
+      span {
+        display: block;
+        float: none;
+        text-align: center;
+        padding-top: 4px;
+      }
+    }
+    .listThirdBlock {
+      float: right;
+      padding-right: 0;
+    }
+  }
+
+  .bottomContainer {
+    margin-top: 50px;
+
+    p {
+      color: $black-light;
+      font-family: Arial;
+    }
+
+    .pagginationBlock {
+      display: table;
+      margin: 0px auto;
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+
+        li {
+          float: left;
+          padding-right: 20px;
+
+          a {
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 16px;
+
+            img {
+              width: 8px;
+              position: relative;
+              top: -1px;
+            }
+
+            &:hover {
+              text-decoration: none;
+            }
+
+            &.active {
+              color: $black;
+            }
+          }
+
+          &.paginationDots {
+            a {
+              color: $black-light;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .showByContainer {
+    float: right;
+    display: inline-flex;
+    padding-left: 15px;
+
+    p {
+      padding-top: 3px;
+      padding-right: 20px;
+    }
+
+    .dropdown {
+      top: -7px;
+      ul {
+        min-width: 80px;
+        li {
+          width: 100%;
+          float: left;
+          padding: 10px;
+          a {
+            color: $black;
+          }
+        }
+      }
+      .btn {
+        width: 80px;
+        border: 1px solid #bfbfbf;
+        padding: 0;
+        background-color: transparent;
+        text-align: left;
+
+        span {
+          color: #000;
+          padding: 10px;
+          position: relative;
+          top: 6px;
+          font-family: Arial;
+          font-size: 14px;
+          line-height: 16px;
+        }
+      }
+    }
+
+    .downArrow {
+      position: relative;
+      background-color: #7f7f7f;
+      width: 40px;
+      height: 39px;
+      float: right;
+
+      &:before {
+        content: "";
+        background-image: url("/../assets/arrow-white-down.svg");
+        background-repeat: no-repeat;
+        width: 11px;
+        height: 6px;
+        position: absolute;
+        left: 16px;
+        top: 18px;
+      }
+    }
+  }
+
+  .dottedBorderBlock {
+    width: 100%;
+    margin-top: 40px;
+    height: 13px;
+    float: left;
+    position: relative;
+
+    span {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: auto;
+      left: 0;
+      right: 0;
+      width: auto;
+      background-image: url("/../assets/dot.png");
+      background-repeat: repeat-x;
+      background-size: 12px;
+    }
+  }
+
+  .footer {
+    margin-top: 40px;
+
+    .footerTop {
+      display: table;
+      margin: 0px auto;
+
+      .callUsBlock,
+      .faqBlock {
+        float: left;
+
+        img {
+          float: left;
+        }
+
+        span {
+          a {
+            color: #000;
+            font-family: Arial;
+            font-size: 16px;
+            line-height: 18px;
+            padding-top: 15px;
+            padding-left: 10px;
+          }
+        }
+      }
+
+      .faqBlock {
+        display: table;
+        padding-left: 40px;
+      }
+    }
+
+    .footerbottom {
+      padding-top: 80px;
+      padding-bottom: 20px;
+      ul {
+        float: right;
+        list-style: none;
+
+        li {
+          float: left;
+          color: #000000;
+          font-family: Arial;
+          font-size: 14px;
+          line-height: 16px;
+          text-align: right;
+          border-right: 1px solid #000;
+          padding: 0 10px;
+
+          &:last-child {
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+  .onlineShopLinkTxt {
+    padding-top: 11px;
+    span {
+      font-family: Arial;
+      font-size: 14px;
+      line-height: 16px;
+      text-align: center;
+      float: left;
+      &.onlineShopLinkTxtimg {
+        padding-top: 5px;
+        padding-right: 10px;
+        img {
+          width: 5px;
+        }
+      }
+    }
+  }
+  #inventoryCheck {
+    .modal-dialog {
+      max-width: 623px;
+    }
+    h4,
+    h6 {
+      width: 100%;
+      float: left;
+    }
+    .modal-header {
+      display: block;
+      align-items: baseline;
+      position: relative;
+      border-bottom: none;
+      padding: 1rem 1rem 0 1rem;
+      .close {
+        margin: 0;
+        position: absolute;
+        top: 8px;
+        padding: 0;
+        right: 7px;
+        span {
+          font-size: 30px;
+          color: $zf-color-blue;
+        }
+      }
+    }
+  }
+
+  .pDetailTopContainer {
+    margin-top: 40px;
+    .form-control-plaintext {
+      height: 37px;
+      width: 89px;
+      padding: 10px 10px;
+    }
+  }
+  .pDetailTLeftBlock {
+    img {
+      width: 100%;
+    }
+  }
+  .pDetailTRightBlock {
+    p {
+      color: $black-light;
+      font-size: 16px;
+      line-height: 22px;
+      margin-bottom: 0;
+    }
+    span {
+      color: $black-light;
+      font-size: 12px;
+      line-height: 22px;
+    }
+    .detailPFormBlock {
+      padding-top: 15px;
+      label {
+        padding-top: 15px;
+        font-size: 14px;
+        line-height: 22px;
+      }
+      .dPContainer {
+        max-width: 252px;
+        .vdp-datepicker__calendar {
+          width: 252px;
+        }
+      }
+    }
+  }
+
+  .detailPQuantityBoxBlock {
+    span {
+      padding-top: 10px;
+      padding-left: 10px;
+    }
+  }
+  .detailPDropDownBlock {
+    padding-left: 20px;
+    padding-top: 10px;
+    position: relative;
+    .listDropDownText {
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+    .downArrow {
+      &:before {
+        content: "";
+        background-image: url("/../assets/down-arrow.png");
+        background-repeat: no-repeat;
+        width: 11px;
+        height: 6px;
+        position: absolute;
+        right: -16px;
+        top: 19px;
+      }
+    }
+    ul {
+      min-width: 100px;
+      li {
+        padding: 0 10px;
+        display: table;
+        clear: both a {
+          color: $black-light;
+        }
+      }
+    }
+  }
+  .detailPriceBlock {
+    p {
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 23px;
+      color: $black;
+      span {
+        display: block;
+      }
+    }
+  }
+  .disflexContainer {
+    display: inline-flex;
+  }
+  .margin-top-20 {
+    margin-top: 20px;
+  }
+  .margin-bottom-20 {
+    margin-bottom: 20px;
+  }
+  .margin-top-10 {
+    margin-top: 10px;
+  }
+  .margin-bottom-10 {
+    margin-bottom: 10px;
+  }
+  .table-basket {
+    margin-top: 40px;
+    .table-row > div {
+      padding: 10px 8px;
+      font-weight: bold;
+      font-size: 12px;
+      vertical-align: top;
+      border-bottom: 1px solid #ddd;
+    }
+    .table-header > div {
+      padding-bottom: 20px;
+      padding-top: 2px;
+      vertical-align: bottom;
+      color: $black-light;
+    }
+    span {
+      line-height: 18px;
+    }
+    span.span-row {
+      display: block;
+    }
+
+    .action-inks {
+      a {
+        padding-right: 8px;
+        font-weight: normal;
+      }
+    }
+    input.qty-spinner {
+      width: 80px;
+      border-radius: 0 !important;
+    }
+    .uom-text {
+      padding: 4px 0;
+    }
+    .text-dark {
+      color: $black;
+    }
+    .type-select {
+      border: none;
+      margin-left: -5px;
+    }
+    .basket-textarea {
+      resize: none;
+      width: 84px;
+      height: 110px;
+      margin-top: 10px;
+    }
+    input.table-shipdate {
+      border: none;
+      font-size: 12px;
+    }
+    span {
+      color: $black;
+    }
+    input[type="text"] {
+      color: $black;
+      font-weight: 700;
+    }
+  }
+  .upload-files-box {
+    padding: 20px;
+    margin-bottom: 20px;
+    border-width: 2px;
+    border-color: $black-lighter;
+    border-style: dashed;
+    text-align: center;
+    span {
+      display: block;
+    }
+    p {
+      float: left;
+      margin-bottom: 0;
+      img {
+        width: 50px;
+        padding-right: 10px;
+      }
+    }
+    a {
+      float: none;
+    }
+  }
+  hr.hr-border {
+    margin-top: 40px;
+    border-width: 4px;
+    border-color: $zf-color-blue;
+    border-style: dashed;
+  }
+  .cusInfoBlock.float-none + .searchContainer {
+    margin-top: 20px;
+  }
+  .float-none {
+    float: none;
+  }
+  button.btn.btn-shipment {
+    width: 100%;
+    background: $zf-color-cyan;
+    border-color: $zf-color-cyan;
+    color: $zf-color-white;
+    .btn-ico-forward {
+      background-image: url("/../assets/arrow-white-right.png");
+      height: 12px;
+      width: 12px;
+      background-size: contain;
+      display: inline-block;
+      margin-bottom: -2px;
+      margin-left: 5px;
+    }
+  }
+  button.btn.btn-shipment:hover {
+    background-color: #0091c4;
+    color: #fff;
+  }
+  .table-table {
+    display: table;
+    .table-header {
+      display: table-header-group;
+    }
+    .table-body {
+      display: table-row-group;
+    }
+    .table-row {
+      display: table-row;
+      > div:first-child {
+        padding-left: 0;
+      }
+    }
+    .table-row > div {
+      display: table-cell;
+    }
+    .action-inks {
+      display: block;
+      float: left;
+      margin-top: 20px;
+    }
+    .downArrow {
+      position: relative;
+      float: right;
+      &:before {
+        content: "";
+        background-image: url("/../assets/arrow-blue-down.svg");
+        background-repeat: no-repeat;
+        width: 11px;
+        height: 6px;
+        position: absolute;
+        right: -13px;
+        top: 8px;
+      }
+    }
+    ul {
+      min-width: auto;
+      padding: 0.5rem;
+    }
+  }
+  .detailPQuantityBoxBlock {
+    input {
+      width: 89px;
+      height: 37px;
+      padding: 10px;
+    }
+  }
+  .detailActionBtnBlock {
+    .secondryBtnSearchI {
+      width: 155px;
+      min-height: 37px;
+      background-color: #fff;
+      border: 1px solid $zf-color-cyan;
+      font-size: 14px;
+      line-height: 16px;
+      color: $zf-color-cyan;
+      position: relative;
+      padding: 0 15px 0 0;
+
+      &:before {
+        content: " ";
+        background-image: url("/../assets/arrow-blue-right.svg");
+        background-repeat: no-repeat;
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        right: 8px;
+        left: auto;
+        top: 13px;
+      }
+    }
+  }
+  .shoppingBDBlock {
+    margin-top: 40px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    .clickableLink {
+      font-size: 12px;
+      line-height: 14px;
+      color: $zf-color-dblue;
+      cursor: pointer;
+      font-family: "Verdana", sans-serif;
+      ul {
+        padding-left: 0px;
+        list-style: none;
+        li {
+          float: left;
+        }
+      }
+      img {
+        width: 15px;
+        margin-right: 10px;
+      }
+    }
+  }
+  .tdQuantityBlock {
+    input {
+      height: 37px;
+      padding: 0 10px;
+      width: 70px;
+      text-align: center;
+    }
+    .quantityBoxBlock {
+      text-align: center;
+    }
+  }
+  .modal-dialog {
+    max-width: 623px;
+  }
+
+  .modal-header {
+    display: block;
+    align-items: baseline;
+    position: relative;
+    border-bottom: none;
+    padding: 1rem 1rem 0 1rem;
+    &.popUpHeader {
+      h4,
+      h6 {
+        width: 100%;
+        float: left;
+      }
+      .close {
+        margin: 0;
+        position: absolute;
+        top: 6px;
+        padding: 0;
+        right: 10px;
+        span {
+          font-size: 30px;
+          color: $zf-color-blue;
+        }
+      }
+    }
+  }
+  .uploadStatusPP {
+    thead,
+    tbody {
+      th,
+      td {
+        width: 20%;
+        padding: 15px 10px;
+        .clickableLink {
+          padding-top: 10px;
+        }
+        .quantityBoxBlock {
+          display: table;
+          margin: 0px auto;
+          span {
+            display: block;
+            text-align: center;
+            padding-top: 3px;
+          }
+        }
+      }
+    }
+  }
+  .errorBlockPP {
+    border: 1px solid $zf-color-red;
+    padding: 15px;
+    float: left;
+    display: inline-flex;
+    margin: 20px 0;
+    .pPLeftBlock {
+      width: 50px;
+      float: left;
+      img {
+        width: 18px;
+      }
+    }
+    .pPRightBlock {
+      margin-top: 5px;
+    }
+    .textColorGrey {
+      color: $zf-color-grey-light;
+      padding-top: 20px;
+    }
+  }
+  .uploadStatusPpContainer {
+    .modal-header {
+      float: left;
+      width: 100%;
+      padding: 30px 15px 20px 15px;
+    }
+    .modal-body {
+      float: left;
+    }
+    .btnBlock {
+      width: 100%;
+      margin: 20px 0 40px 0;
+      float: left;
+      .secondryBtnList {
+        width: 48%;
+        margin-right: 2%;
+      }
+      .secondryCartBtnI {
+        width: 48%;
+        margin-left: 2%;
+        text-align: center;
+        &::after {
+          right: 16px;
+        }
+      }
+    }
+    .divTd,
+    .divTh {
+      font-family: "Verdana", sans-serif;
+      font-size: 12px;
+      line-height: 14px;
+      padding: 15px 10px !important;
+      border-top: 1px solid #bfbfbf;
+      font-weight: normal !important;
+    }
+    .divTh {
+      color: $black-light;
+    }
+    .divTd {
+      color: #000000;
+    }
+    .quantityBoxBlock {
+      span {
+        width: 70px;
+        display: block;
+        text-align: center;
+        padding-top: 3px;
+      }
+      input {
+        height: 37px;
+        width: 70px;
+      }
+    }
+    .clickableLink {
+      padding-top: 10px;
+    }
+    .table-content-body {
+      height: 200px;
+      display: inline-block;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 100%;
+    }
+    .table-body {
+      display: inline-block;
+      width: 100%;
+      .table-row {
+        display: inline-block;
+        width: 100%;
+      }
+      .divTh,
+      .divTd {
+        width: 20%;
+        border-bottom: none;
+        display: inline-block;
+      }
+    }
+    .table-header {
+      display: block;
+    }
+  }
+  .modal-dialog {
+    .close {
+      margin: 0;
+      position: absolute;
+      top: 6px;
+      padding: 0;
+      right: 10px;
+      z-index: 99;
+      span {
+        font-size: 30px;
+        color: $zf-color-blue;
+      }
+    }
+  }
+  .loaderBlock {
+    display: table;
+    margin: 0px auto;
+    img {
+      width: 70px;
+    }
+  }
+  .vdp-datepicker__calendar header {
+    height: auto;
+  }

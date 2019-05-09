@@ -1,0 +1,13 @@
+// Product Mutations.
+
+import { UPDATE_PRODUCTS_SATE } from "../../mutation-types";
+
+export default {
+  // Save Product data to Vuex Store (Store name: ProductList).
+  [UPDATE_PRODUCTS_SATE]: (state, payload) => {
+    const curentState = state;
+    if (payload) {
+      curentState.ProductList = payload;
+    }
+  }
+};

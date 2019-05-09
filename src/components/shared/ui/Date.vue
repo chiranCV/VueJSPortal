@@ -1,0 +1,142 @@
+<template>
+  <div class="dpicker-container">
+    <Datepicker
+      v-model="currentDate"
+      v-bind:config="options"
+      v-on:dp-show="datepickerOpenedFunction"
+      v-on:dp-update="datepickerUpdateFunction"
+      v-on:dp-hide="datepickerCloseFunction"
+    ></Datepicker>
+    <span class="calender-icon" ref="openDatePicker">
+      <img class="img-fluid" src="@/assets/calendar.svg">
+    </span>
+  </div>
+</template>
+
+<script >
+import _ from "lodash";
+import Datepicker from "vue-bootstrap-datetimepicker";
+import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import moment from "moment";
+import $ from "jquery";
+
+export default {
+  name: "Date",
+  components: {
+    Datepicker
+  },
+  props: {
+    IsProgramaticOpen: {
+      type: Boolean,
+      default: false
+    },
+    PlaceHolder: {
+      type: String,
+      default: "Select Date"
+    },
+    DateFormat: {
+      type: String,
+      default: "MM/DD/YYYY"
+    },
+    SelectedDate: {
+      type: String,
+      default: Date(Date.now())
+    },
+    DisableDates: {
+      type: Array
+    },
+    MinDate: {
+      type: Object,
+      default() {
+        return moment(new Date(), "YYYY-MM-DD");
+      }
+    }
+  },
+  methods: {
+    trigger() {
+      this.$refs.fileInput.click();
+    }
+  },
+  mounted() {
+    this.adddisableDatesTodatePicker();
+  },
+  data() {
+    return {
+      currentDate: new Date(),
+      options: {
+        format: this.DateFormat,
+        useCurrent: true,
+        disabledDates: [],
+        minDate: this.MinDate
+      }
+    };
+  },
+  methods: {
+    adddisableDatesTodatePicker() {
+      const datepickeroption = this.options;
+      if (this.DisableDates && this.DisableDates.length > 0) {
+        // eslint-disable-next-line arrow-parens
+        this.DisableDates.forEach(element => {
+          datepickeroption.disabledDates.push(
+            moment(element.Date, "YYYY-MM-DD")
+          );
+        });
+      }
+    },
+    datepickerOpenedFunction() {
+      setTimeout(() => {
+        this.applyToolTipForDesableDates();
+      }, 200);
+    },
+    datepickerCloseFunction() {
+      this.$emit("onDateChange", this.currentDate);
+    },
+    datepickerUpdateFunction() {
+      setTimeout(() => {
+        this.applyToolTipForDesableDates();
+      }, 200);
+    },
+    applyToolTipForDesableDates() {
+      $("td.day.disabled").each((index, element) => {
+        const $element = $(element);
+        const disabledate = $element.data("day");
+        const message = this.getDiasabelMessage(disabledate);
+        if (message !== "") {
+          $element.attr("title", message);
+          $element.data("container", "body");
+          $element.tooltip();
+        }
+      });
+    },
+    getDiasabelMessage(date) {
+      const formattedDate = moment(date, "MM/DD/YYYY").format("YYYY-MM-DD");
+      if (this.DisableDates && this.DisableDates.length > 0) {
+        const currentDisabledate = _.find(
+          this.DisableDates,
+          // eslint-disable-next-line implicit-arrow-linebreak
+          o => o.Date === formattedDate
+        );
+        return currentDisabledate ? currentDisabledate.Message : "";
+      }
+      return "";
+    }
+  }
+};
+$.extend(true, $.fn.datetimepicker.defaults, {
+  icons: {
+    time: "far fa-clock",
+    date: "far fa-calendar",
+    up: "fas fa-arrow-up",
+    down: "fas fa-arrow-down",
+    previous: "fas fa-chevron-left",
+    next: "fas fa-chevron-right",
+    today: "fas fa-calendar-check",
+    clear: "far fa-trash-alt",
+    close: "far fa-times-circle"
+  }
+});
+</script>
+
+<style lang="scss" scoped>
+</style>

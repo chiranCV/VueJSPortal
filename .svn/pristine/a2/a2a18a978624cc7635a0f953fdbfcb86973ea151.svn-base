@@ -1,0 +1,52 @@
+// content Actions.
+
+import { FETCH_ALL_CUSTOMER_ACCOUNT } from "../../action-types";
+import { SAVE_CUSTOMER_ACCOUNT_SATE } from "../../mutation-types";
+import customerApi from "../../../api/customer-api";
+import sessionManager from "../../../helpers/session-manager";
+import config from "../../../config.json";
+
+export default {
+  // fetch customer account reult
+  // calling APi if cookie not exsist
+  [FETCH_ALL_CUSTOMER_ACCOUNT]: context =>
+    new Promise((resolve, reject) => {
+      customerApi
+        .getCustomerAccounts("ajithonly", false)
+        .then((accountResult) => {
+          context.commit(SAVE_CUSTOMER_ACCOUNT_SATE, accountResult);
+          const sapIdCookiename = config.Cookiekeys.SapId;
+          const cookieExpiaryTime = 60 * 24 * 365 * 100;
+          const defItem = accountResult.filter(item =>
+            item.IsDefault === true);
+
+          if (!sessionManager.chekcCookieExsitst(sapIdCookiename)) {
+            if (defItem && defItem.length === 1) {
+              sessionManager.setCookie(
+                sapIdCookiename,
+                defItem[0].SAPCustomerNo,
+                cookieExpiaryTime
+              );
+            }
+          } else {
+            const cookieValue = sessionManager.getCookie(sapIdCookiename);
+            const matchedItem = accountResult.filter(item =>
+              item.SAPCustomerNo === cookieValue);
+
+            if (!(matchedItem && matchedItem.length === 1)) {
+              sessionManager.setCookie(
+                sapIdCookiename,
+                defItem[0].SAPCustomerNo,
+                cookieExpiaryTime
+              );
+            }
+          }
+
+          resolve();
+        })
+        .catch((error) => {
+          reject();
+          throw error;
+        });
+    })
+};

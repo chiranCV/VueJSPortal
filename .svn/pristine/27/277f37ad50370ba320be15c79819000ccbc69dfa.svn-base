@@ -1,0 +1,36 @@
+<template>
+  <div class="app-wrapper iooContainer">
+    <div class="container">
+      <div>
+        <router-view/>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { mapActions } from "vuex";
+
+import { FETCH_ALL_SANATEXT, FETCH_CURRENT_BASKET, FETCH_SITE_SETTINGS } from "./store/action-types";
+
+export default {
+  name: "app",
+  // Life sycle hooks.
+  created() {
+    this.fetchsitesettings();
+    this.fetchsanatext();
+    this.fetchCurentBaket();
+  },
+
+  methods: {
+    ...mapActions("content", {
+      fetchsanatext: FETCH_ALL_SANATEXT,
+      fetchsitesettings: FETCH_SITE_SETTINGS
+    }),
+    ...mapActions("basket", {
+      fetchCurentBaket: FETCH_CURRENT_BASKET
+    })
+  }
+};
+</script>
+<style lang="scss">
+</style>

@@ -1,0 +1,11 @@
+// Mixin for get Sana text
+
+import SanaTextManager from "../helpers/sana-text-manager";
+
+export default {
+  methods: {
+    getSanaText(key, defult = "") {
+      return SanaTextManager.getSanaText(key, defult);
+    }
+  }
+};

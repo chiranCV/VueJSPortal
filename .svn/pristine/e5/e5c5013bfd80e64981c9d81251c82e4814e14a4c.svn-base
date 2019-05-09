@@ -1,0 +1,30 @@
+import _ from "lodash";
+import config from "../config.json";
+import cookieManager from "./session-manager";
+
+class GlobalHelper {
+  static addNewProductToLastviewedIdList = (newItem) => {
+    const cookieKey = config.Cookiekeys.LastViewdItems;
+    let initiallist = [];
+    if (cookieManager.chekcCookieExsitst(cookieKey)) {
+      initiallist = cookieManager.getCookieJSON(cookieKey);
+    }
+    if (!_.find(initiallist, o =>
+      o === newItem)) {
+      initiallist.push(newItem);
+    }
+    cookieManager.setCookie(cookieKey, initiallist, config.CookieExpireTimes.LastViewdItems);
+    let lastvieditemids = initiallist;
+    if (lastvieditemids.length > config.MaxLastviewedToKeep) {
+      lastvieditemids = initiallist.slice(0, config.MaxLastviewedToKeep);
+    }
+    return lastvieditemids;
+  };
+
+  static clearLastViewedItems = () => {
+    const cookieKey = config.Cookiekeys.LastViewdItems;
+    cookieManager.removeCookie(cookieKey);
+  };
+}
+
+export default GlobalHelper;

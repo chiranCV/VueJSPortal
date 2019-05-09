@@ -1,0 +1,39 @@
+<template>
+  <div class="row">
+    <div class="col-lg-6 col-5">
+      <h1 class="mb-0 h2">Search Result</h1>
+    </div>
+    <div class="col-lg-6 col-7">
+      <a href="#" class="online-shop-link-txt">
+        <span class="online-shop-link-txt-img">
+          <img src="@/assets/arrow-left.svg" class="img-fluid">
+        </span>
+        <a href="#/">
+          <span>
+            Online Shop
+            <br>Overview
+          </span>
+        </a>
+      </a>
+      <div class="dropdown cart-dropdown-container">
+        <mini-basket></mini-basket>
+      </div>
+      <div class="cus-info-block">
+        <!-- cusotmer selection block -->
+        <customer-selection></customer-selection>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import CustomerSelection from "./CustomerSelection.vue";
+import MiniBasket from "../basket/MiniBasket.vue";
+
+export default {
+  name: "AppHeadder",
+  components: {
+    "customer-selection": CustomerSelection,
+    "mini-basket": MiniBasket
+  }
+};
+</script>

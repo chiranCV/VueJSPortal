@@ -1,0 +1,117 @@
+<template>
+  <div class="dpicker-container">
+    <Datepicker
+      v-model="currentDate"
+      v-bind:config="options"
+      v-on:dp-show="datepickerOpenedFunction"
+      v-on:dp-update="datepickerUpdateFunction"
+      v-on:dp-hide="datepickerCloseFunction"
+    ></Datepicker>
+    <span class="calender-icon">
+      <img class="img-fluid" src="@/assets/calender-icon.png">
+    </span>
+  </div>
+</template>
+
+<script >
+import _ from "lodash";
+import Datepicker from "vue-bootstrap-datetimepicker";
+import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
+import moment from "moment";
+import $ from "jquery";
+
+export default {
+  name: "Date",
+  components: {
+    Datepicker
+  },
+  props: {
+    IsProgramaticOpen: {
+      type: Boolean,
+      default: false
+    },
+    PlaceHolder: {
+      type: String,
+      default: "Select Date"
+    },
+    DateFormat: {
+      type: String,
+      default: "MM/DD/YYYY"
+    },
+    SelectedDate: {
+      type: String,
+      default: Date(Date.now())
+    },
+    DisableDates: {
+      type: Array
+    }
+  },
+  mounted() {
+    this.adddisableDatesTodatePicker();
+  },
+  data() {
+    return {
+      currentDate: new Date(),
+      options: {
+        format: this.DateFormat,
+        useCurrent: true,
+        disabledDates: []
+      }
+    };
+  },
+  methods: {
+    adddisableDatesTodatePicker() {
+      const datepikeroption = this.options;
+      if (this.DisableDates && this.DisableDates.length > 0) {
+        // eslint-disable-next-line arrow-parens
+        this.DisableDates.forEach(element => {
+          datepikeroption.disabledDates.push(
+            moment(element.Date, "YYYY-MM-DD")
+          );
+        });
+      }
+      console.log("datepikeroption", datepikeroption);
+    },
+    datepickerOpenedFunction() {
+      setTimeout(() => {
+        this.applyToolTipForDesableDates();
+      }, 200);
+    },
+    datepickerCloseFunction() {
+      this.$emit("onDateChange", this.currentDate);
+    },
+    datepickerUpdateFunction() {
+      setTimeout(() => {
+        this.applyToolTipForDesableDates();
+      }, 200);
+    },
+    applyToolTipForDesableDates() {
+      $("td.day.disabled").each((index, element) => {
+        const $element = $(element);
+        const disabledate = $element.data("day");
+        const message = this.getDiasabelMessage(disabledate);
+        if (message !== "") {
+          $element.attr("title", message);
+          $element.data("container", "body");
+          $element.tooltip();
+        }
+      });
+    },
+    getDiasabelMessage(date) {
+      const formattedDate = moment(date, "MM/DD/YYYY").format("YYYY-MM-DD");
+      if (this.DisableDates && this.DisableDates.length > 0) {
+        const currentDisabledate = _.find(
+          this.DisableDates,
+          // eslint-disable-next-line implicit-arrow-linebreak
+          o => o.Date === formattedDate
+        );
+        return currentDisabledate ? currentDisabledate.Message : "";
+      }
+      return "";
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+</style>

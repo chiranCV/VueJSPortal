@@ -1,0 +1,113 @@
+<template>
+  <div class="last-viewed-block">
+    <div class="ioo-mt-40 mb-4 ioo-mb-40">
+      <div class="d-flex flex-row">
+        <div class="p-2 pr-10 ioo-mr-10">
+          <h4 class="font-bold">Last Viewed Products</h4>
+        </div>
+        <div class="p-2 ioo-mt-7">
+          <a class="ml-2" href>View all</a>
+        </div>
+        <div class="p-2 ioo-mt-7" v-on:click="handleclearLatviewItems">
+          <a class="ml-2">Clear</a>
+        </div>
+      </div>
+    </div>
+    <div class="caresoul-grid-container">
+      <sana-carosel v-bind:listSize="lastviewdItelsList.length">
+        <div
+          class="grid-carousel--card col-4"
+          v-for="(item,index) in lastviewdItelsList"
+          v-bind:key="index"
+        >
+          <lastvie-Items v-bind:LastViewditemModel="item"></lastvie-Items>
+        </div>
+      </sana-carosel>
+    </div>
+  </div>
+</template>
+
+<script>
+// import { mapActions, mapState } from "vuex";
+import carosel from "../shared/ui/Carousel.vue";
+// import { FETCH_LASTVIEWED_ITEMS } from "../../store/action-types";
+import globalHelper from "../../helpers/GlobalHelper";
+
+import LastViewdItems from "./LastViewdTabItems.vue";
+
+export default {
+  name: "LastViewed",
+  components: {
+    "sana-carosel": carosel,
+    "lastvie-Items": LastViewdItems
+  },
+  props: {
+    ProductId: {
+      type: String,
+      required: true
+    },
+    LastViewdItemList: {
+      type: Array,
+      required: true
+    }
+  },
+
+  data() {
+    return {
+      isLoading: false,
+      selectedProductType: "00",
+      quntity: "0",
+      lastviewdItelsList: []
+    };
+  },
+  mounted() {
+    console.log(this.LastViewdItemList.length);
+    this.lastviewdItelsList = this.LastViewdItemList;
+  },
+  /*  created() {
+    const lastviewIdList = globalHelper.addNewProductToLastviewedIdList(
+      this.ProductId
+    );
+    const lastViedLoadOptions = {
+      productIdList: lastviewIdList,
+      curentProductId: this.ProductId
+    };
+    this.isLoading = true;
+    this.fetchLastViewedItems(lastViedLoadOptions).then(() => {
+
+      this.isLoading = false;
+      this.lastviewdItelsList = this.lastViewedModel;
+    });
+  }, */
+  methods: {
+    /*  ...mapActions("products", {
+      fetchLastViewedItems: FETCH_LASTVIEWED_ITEMS
+    }), */
+    onQuantityChange(qty) {
+      this.quantity = qty;
+    },
+    onProductTypeChangeSelection(val) {
+      this.selectedProductTypeId = val.Id;
+      this.selectedProductTypeTitle = val.Title;
+    },
+    getProductTypes(ProductModel) {
+      return ProductModel && ProductModel.ProductType.length > 0
+        ? ProductModel.ProductType
+        : [];
+    },
+    /* events */
+    handleclearLatviewItems() {
+      globalHelper.clearLastViewedItems();
+      this.lastviewdItelsList = [];
+    }
+  }
+  /*   computed: {
+    ...mapState("products", {
+      // eslint-disable-next-line no-trailing-spaces
+      lastViewedModel: state =>
+        // eslint-disable-next-line indent
+        state.LastVewItems
+    })
+  } */
+};
+</script>

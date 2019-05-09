@@ -1,0 +1,361 @@
+<template>
+  <div>
+    <div class="inner-header">
+      <!-- Appheader componenet  -->
+      <sana-app-header v-bind:headerTitle="this.GetSanaText('SearchPage_Title','Search Result')"/>
+    </div>
+    <div class="row">
+      <div class="col-7">
+        <!-- search box -->
+        <sana-searchbox v-on:onSearch="handleProductSearch"></sana-searchbox>
+      </div>
+    </div>
+    <!-- search result container -->
+    <div>
+      <div v-bind:class="listGridToggelButtonCss">
+        <div class="col-lg-6 col-4">
+          <p v-text="searchResultSummarytext">Search on: brake disc - 132 product(s) found</p>
+        </div>
+        <div class="col-lg-6 col-8">
+          <div class="view-list-grid-block">
+            <ul>
+              <li>
+                <p class="text-view" v-text="this.GetSanaText('SearchPage_View','View:')">View:</p>
+              </li>
+              <li>
+                <a v-on:click="onViewChange(true)">
+                  <img class="img-fluid list-non-active-img" src="@/assets/icon-list.png">
+                  <img class="img-fluid list-active-img" src="@/assets/icon-list-active.png">
+                </a>
+              </li>
+              <li>
+                <a v-on:click="onViewChange(false)">
+                  <img class="img-fluid grid-non-active-img" src="@/assets/icon-grid.png">
+                  <img class="img-fluid grid-active-img" src="@/assets/icon-grid-active.png">
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="sort-by-container">
+            <p v-text="this.GetSanaText('SearchPage_SortBy','Sort by:')"></p>
+            <sorting-dropdown
+              v-bind:SortOptions="this.pagingInfo ? this.pagingInfo.Sorting : {}"
+              v-on:onChangeSelection="onSortSelectionChange"
+            ></sorting-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="list-loading-block" v-if="this.IsDataLaoding">
+        <span>
+          <!-- <p v-text="this.GetSanaText('SearchPage_Loading','Loading....')"></p> -->
+          <img class="img-fluid" src="@/assets/loading.gif">
+        </span>
+      </div>
+      <div v-else>
+        <div v-if="searchResult.length>0">
+          <!-- list items (grid/list) -->
+          <div v-bind:class="gridRowCssClass">
+            <div
+              v-bind:class="gridColCssClass"
+              v-for="(item,index) in searchResult"
+              v-bind:key="index"
+            >
+              <keep-alive>
+                <component v-bind:is="listViewComponent" v-bind:ListItem="item"></component>
+              </keep-alive>
+            </div>
+          </div>
+          <div>
+            <!-- Pagging -->
+            <sana-paging
+              v-bind:PageIndex="searchOptions.pageno"
+              v-bind:TotalCount="searchResultHeader.TotalCount"
+              v-bind:InitialPageSize="searchOptions.pagesize"
+              v-on:changePageUrl="updatePageUrl"
+              v-on:onPageSizeCahnge="handlepageSizeChange"
+            ></sana-paging>
+            <!-- :PageSize="searchResultHeader.PageSize" -->
+            <!--  v-on:changePageUrl="updatePageUrl($event)"
+            v-bind:InitialPageSize="parseInt(9)"-->
+          </div>
+        </div>
+        <div v-else>
+          <span>
+            <p v-text="this.GetSanaText('SearchPage_NoResult','No Results Found')"></p>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="dotted-border-block">
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="inventoryCheck" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title font-weight-bold">0091.301.120(Standard)</h4>
+            <h6 class="font-weight-bold">Item: 0091.301.120</h6>
+            <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="ioo-table">
+              <div class="ioo-table-row">
+                <div class="ioo-table-head">Supplier code</div>
+                <div class="ioo-table-head">Date</div>
+                <div class="ioo-table-head">Supplier stock</div>
+                <div class="ioo-table-head">Message</div>
+              </div>
+              <div class="ioo-table-body">
+                <div class="ioo-table-row">
+                  <div class="ioo-table-cell">ZFTBR</div>
+                  <div class="ioo-table-cell">
+                    2019-04-04
+                    <br>12:00:00 AM
+                  </div>
+                  <div class="ioo-table-cell">53</div>
+                  <div class="ioo-table-cell">dsd</div>
+                </div>
+                <div class="ioo-table-row">
+                  <div class="ioo-table-cell">ZFTBR</div>
+                  <div class="ioo-table-cell">
+                    2019-04-04
+                    <br>12:00:00 AM
+                  </div>
+                  <div class="ioo-table-cell">53</div>
+                  <div class="ioo-table-cell">dsd</div>
+                </div>
+                <div class="ioo-table-row">
+                  <div class="ioo-table-cell">ZFTBR</div>
+                  <div class="ioo-table-cell">
+                    2019-04-04
+                    <br>12:00:00 AM
+                  </div>
+                  <div class="ioo-table-cell">53</div>
+                  <div class="ioo-table-cell">dsd</div>
+                </div>
+                <div class="ioo-table-row">
+                  <div class="ioo-table-cell">ZFTBR</div>
+                  <div class="ioo-table-cell">
+                    2019-04-04
+                    <br>12:00:00 AM
+                  </div>
+                  <div class="ioo-table-cell">53</div>
+                  <div class="ioo-table-cell">dsd</div>
+                </div>
+                <div class="ioo-table-row">
+                  <div class="ioo-table-cell">ZFTBR</div>
+                  <div class="ioo-table-cell">
+                    2019-04-04
+                    <br>12:00:00 AM
+                  </div>
+                  <div class="ioo-table-cell">53</div>
+                  <div class="ioo-table-cell">dsd</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+
+import { FETCH_SEARCH_RESULT } from "../../store/action-types";
+import {
+  GET_PRODUCT_LIST,
+  GET_SEARCHRESYULT_HEARDER,
+  GET_PAGINGINFO
+} from "../../store/getter-types";
+import Paging from "../shared/ui/Paging.vue";
+import SearchBox from "../shared/ui/SearchBox.vue";
+import SortingDropdown from "../shared/SortingDropdown.vue";
+
+const AppHeader = () =>
+  import(/* webpackChunkName:"app_header" */ "../shared/AppHeader.vue");
+const ListView = () =>
+  import(/* webpackChunkName:"list_view" */ "./ProductListItem.vue");
+const GridView = () =>
+  import(/* webpackChunkName:"grid_view" */ "./ProductGridItem.vue");
+
+export default {
+  name: "Search",
+
+  // components.
+  components: {
+    "sana-app-header": AppHeader,
+    "list-item": ListView,
+    "grid-item": GridView,
+    "sana-searchbox": SearchBox,
+    "sana-paging": Paging,
+    "sorting-dropdown": SortingDropdown
+  },
+
+  // local state.
+  data() {
+    return {
+      ListItems: {},
+      IsDataLaoding: true,
+      searchOptions: { query: "", pageno: 1, pagesize: 9 },
+      listViewComponent: "list-item",
+      gridRowCssClass: "",
+      gridColCssClass: "",
+      listGridToggelButtonCss: "row list-action-container list-active"
+    };
+  },
+
+  // props for the compoment.
+  props: {},
+
+  // Life sycle hooks.
+  created() {
+    const { query, pagesize, pageindex = true } = this.$route.params;
+    const orderby = this.$route.query.orderBy;
+    const { asec } = this.$route.query;
+    const searchoptions = this.searchOptions;
+    if (query) {
+      searchoptions.query = query;
+    }
+    if (pagesize) {
+      searchoptions.pagesize = Number(pagesize);
+    }
+    if (pageindex) {
+      searchoptions.pageno = Number(pageindex);
+    }
+    if (orderby) {
+      searchoptions.orderBy = orderby;
+      if (asec === false || asec === "false") searchoptions.asec = false;
+    }
+    this.searchProducts();
+  },
+
+  mounted() {
+    if (this.searchResult) {
+      this.IsDataLaoding = true;
+    }
+  },
+
+  // vue defult propetes for data manupilation.
+  watch: {
+    listViewComponent(newValue) {
+      if (newValue === "list-item") {
+        this.listGridToggelButtonCss = "row list-action-container list-active";
+      } else {
+        this.listGridToggelButtonCss = "row list-action-container grid-active";
+      }
+    }
+  },
+
+  filters: {},
+
+  computed: {
+    ...mapGetters("products", {
+      searchResult: GET_PRODUCT_LIST,
+      searchResultHeader: GET_SEARCHRESYULT_HEARDER,
+      pagingInfo: GET_PAGINGINFO
+    }),
+    searchResultSummarytext() {
+      const searchHeader = this.searchResultHeader;
+      let sanatextvalue = this.GetSanaText(
+        "SearchPage_SearchOn",
+        "Search on: {[seach-key]} - {[product-count]} product(s) found"
+      );
+      if (searchHeader) {
+        sanatextvalue = sanatextvalue
+          .replace("{[seach-key]}", "Search key")
+          .replace("{[product-count]}", searchHeader.TotalCount);
+      }
+      return sanatextvalue;
+    },
+    selectedSortOption() {
+      return { Id: this.searchOptions.orderBy, asec: this.searchOptions.asec };
+    }
+  },
+
+  methods: {
+    ...mapActions("products", {
+      fetchSearchResult: FETCH_SEARCH_RESULT
+    }),
+    searchProducts() {
+      this.IsDataLaoding = true;
+      this.fetchSearchResult(this.searchOptions).then(() => {
+        this.IsDataLaoding = false;
+        const params = {
+          pageindex: this.searchOptions.pageno,
+          pagesize: this.searchOptions.pagesize
+        };
+        if (this.searchOptions.query !== "") {
+          params.query = this.searchOptions.query;
+        }
+        const query = {};
+        if (this.searchOptions.orderBy) {
+          query.orderBy = this.searchOptions.orderBy;
+          if (this.searchOptions.asec === false) {
+            query.asec = false;
+          }
+        }
+        this.$router.push({
+          name: "SearchWithParam",
+          params,
+          query
+        });
+      });
+    },
+    updatePageUrl(updatedPageDetails) {
+      // on pagination, change only page size and page no on search option
+      const searchoptions = this.searchOptions;
+      searchoptions.pagesize = updatedPageDetails.PageSize;
+      searchoptions.pageno = updatedPageDetails.PageIndex;
+      this.searchProducts();
+    },
+
+    // events
+
+    // list/grid view togle event
+    onViewChange(islistview) {
+      if (!islistview) {
+        this.gridRowCssClass = "product-grid-container row";
+        this.gridColCssClass = "col-4";
+        this.listViewComponent = "grid-item";
+      } else {
+        this.gridRowCssClass = "";
+        this.gridColCssClass = "";
+        this.listViewComponent = "list-item";
+      }
+    },
+
+    handlepageSizeChange(pageSize) {
+      const searchOption = this.searchOptions;
+      if (pageSize) {
+        searchOption.pagesize = pageSize;
+        this.searchProducts();
+      }
+    },
+
+    // sort option change event
+    onSortSelectionChange(sortoption) {
+      // on search update only orderby and asec on search options
+      const searchoptions = this.searchOptions;
+      searchoptions.orderBy = sortoption.orderBy;
+      searchoptions.asec = sortoption.asec;
+      this.searchProducts();
+    },
+
+    // search button click event
+    handleProductSearch(searchKey) {
+      // on search update only query string on search options
+      const searchoptions = this.searchOptions;
+      searchoptions.query = searchKey;
+      this.searchProducts();
+    }
+  }
+};
+</script>

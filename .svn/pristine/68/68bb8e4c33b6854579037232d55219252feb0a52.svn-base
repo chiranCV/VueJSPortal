@@ -1,0 +1,13 @@
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .cart-dropdown-container{
+    ul {
+      top: 80px !important;
+    }
+  }
+  .cus-info-block {
+    position: relative;
+    .dropdown-menu {
+      right: 0;
+    }
+  }
+}

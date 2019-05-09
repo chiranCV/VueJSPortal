@@ -1,0 +1,10 @@
+// list all mutation types for teh app.
+
+// product mutations types.
+export const UPDATE_PRODUCTS_SATE = "UPDATE_PRODUCTS_SATE";
+
+// content mutations types.
+export const UPDATE_SANATEXT_SATE = "UPDATE_SANATEXT_SATE";
+
+// basket mutations types.
+export const SAVE_BASKET_SATE = "SAVE_BASKET_SATE";

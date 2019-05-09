@@ -1,0 +1,9 @@
+// list all getter types for teh app.
+
+// product getter types.
+export const GET_PRODUCT_LIST = "GET_PRODUCT_LIST";
+export const GET_SEARCHRESYULT_HEARDER = "GET_SEARCHRESYULT_HEARDER";
+export const GET_PRODUCT = "GET_PRODUCT";
+
+// Content getter types.
+export const GET_SANA_TEXT = "GET_SANA_TEXT";

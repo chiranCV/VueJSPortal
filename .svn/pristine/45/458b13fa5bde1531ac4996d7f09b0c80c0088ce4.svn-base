@@ -1,0 +1,43 @@
+<template>
+  <div>
+    <button class="ioo-btn ioo-btn-default" data-toggle="dropdown">
+      <span class="btn-inner">
+        <span class="btn-cart"></span>
+        <span class="btn-text">3 Products(s)</span>
+      </span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-right">
+      <li class="ioo-mb-20">
+        <p class="font-weight-bold">The following has been added to your shopping basket.</p>
+      </li>
+      <li>
+        <div class="row">
+          <div class="col-5 ioo-pr-10">
+            <img class="drop-down-img" alt="108 * 78" src="@/assets/sm-thumb-img.jpg">
+          </div>
+          <div class="col-7 ioo-pl-10">
+            <p>Brake Disc</p>
+            <div class="colorBlackLight smFont">3311302 029 01 (Standard)</div>
+            <div class="font-weight-bold smFont ioo-mt-10">3 Pieces</div>
+          </div>
+        </div>
+        <!-- eslint-disable max-len -->
+        <div class="row">
+          <div class="col-12">
+            <button class="ioo-btn ioo-btn-primary btn-checkout" data-toggle="dropdown">
+              <span class="btn-inner">
+                <span class="btn-text">Checkout</span>
+                <span class="btn-arrow-right"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+<script>
+export default {
+  name: "MiniBasket"
+};
+</script>

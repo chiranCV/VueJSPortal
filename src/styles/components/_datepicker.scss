@@ -1,0 +1,62 @@
+.date-picker-primary {
+  .dpicker-container {
+    position: relative;
+    max-width: 252px;
+    input {
+      height: 39px;
+      padding-right: 32px;
+      &:focus {
+        outline: none;
+        box-shadow: none;
+      }
+    }
+    .calender-icon {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      pointer-events: none;
+      img {
+        width: 22px;
+      }
+    }
+    .bootstrap-datetimepicker-widget {
+      top: 38px !important;
+      font-size: 14px;
+      max-width: 252px;
+      min-height: 280px;
+      &:before,&::after {
+        display: none;
+      }
+      table {
+        td {
+          &.active {
+            background-color: $zf-color-blue;
+            color: #fff;
+            &:hover {
+              background-color: $zf-color-dblue;
+            }
+            &.today {
+              &::before {
+                border-bottom-color:$zf-color-white;
+              }
+            }
+          }
+          &.today {
+            &::before {
+              border-bottom-color:$zf-color-cyan;
+            }
+          }
+          &.day {
+						&.old {
+							visibility: hidden;
+						}
+						&.new {
+							display: none;
+						}
+					}
+        }
+      } 
+    }
+  }
+}
+

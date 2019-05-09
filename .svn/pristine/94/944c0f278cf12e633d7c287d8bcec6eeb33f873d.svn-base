@@ -1,0 +1,262 @@
+<template>
+  <div>
+    <div class="row search-list-container ioo-no-gutters">
+      <div class="col-4 pl-0">
+        <div class="row ioo-no-gutters">
+          <div v-if="this.ListItem.ShowThumbnail" class="col-4 pl-0 pr-0">
+            <div class="list-avatar-block">
+              <img src="@/assets/md-thumb-img.jpg">
+            </div>
+          </div>
+          <div class="col-8 ioo-pl-20">
+            <h6
+              v-text="this.ListItem.ProductModel.Product.Title"
+              v-bind:title="this.ListItem.ProductModel.Product.Title"
+            ></h6>
+            <span v-text="this.ListItem.ProductModel.Product.Id"></span>
+            <!-- TODO: PreSelecteditem: how we set the default vaule from arrany in sana -->
+            <!--  @if (zfSettings.ShowProductType)-->
+            <span
+              class="list-dropdown-text"
+              v-if="this.ShopContext
+                  && this.ShopContext.Settings
+                  && this.ShopContext.Settings.ZFSettings
+                  && this.ShopContext.Settings.ZFSettings.ShowProductType"
+            >
+              <sana-dropdown
+                SelectType="basic"
+                v-bind:DataList="this.getGlobleInventoryCheckTypes"
+                v-bind:PreSelecteditem="this.getGlobleInventoryCheckTypes[0]"
+                IdField="Id"
+                TextField="Title"
+                DefaultTextSanaTextKey="IOO_GlobalInventoryCheck_Type_DefaultText"
+                v-on:onChangeSelection="onGlobleInventorySelectionChange"
+                v-bind:Emit="true"
+              ></sana-dropdown>
+            </span>
+            <div class="ioo-clearfix ioo-mb-8">
+              <span v-if="this.ListItem && this.ListItem.CrossReferenceNumber">
+                {{this.GetSanaText("IOO_CrossReference","Cross Reference:")
+                + this.ListItem.CrossReferenceNumber}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 ioo-dpl-55">
+        <div class="d-inline-flex">
+          <div class="v-center-block pr-4 stext-li-container ioo-pr-dk-10">
+            <!-- stock indicator -->
+            <sana-stock v-if="this.UserHasAbilityTo('ViewStock')" v-bind:StockModel="stockModel"></sana-stock>
+          </div>
+          <!-- @if (!((ExtendedShopContext)ShopContext.GetCurrent()).IsUserAllowedActivity("30160")
+          && ((ExtendedShopContext)ShopContext.GetCurrent()).IsUserAllowedActivity("30200"))-->
+          <div class="v-center-btn-block pr-4 ioo-pr-dk-10">
+            <sana-inventory-check
+              v-if="!this.ShopContext.IsUserAllowedActivity_30160
+              && this.ShopContext.IsUserAllowedActivity_30200"
+              v-bind:ProductId="this.ListItem.ProductModel.Product.Id"
+              v-bind:ProductType="this.getProductType()"
+              v-bind:Quantity="this.quantity.toString()"
+            ></sana-inventory-check>
+          </div>
+          <div v-if="this.UserHasAbilityTo('ViewPrices')" class="v-center-block pr-4 sprice-li-container ioo-pr-dk-10">
+            <!--if (showPrices) -->
+            <span  class="list-price-text">
+              <!--(zfSettings.ShowNetPrice)-->
+              <sana-price
+                v-if="this.ShopContext
+                  && this.ShopContext.Settings
+                  && this.ShopContext.Settings.ZFSettings
+                  && this.ShopContext.Settings.ZFSettings.ShowNetPrice"
+                v-bind:title="this.GetSanaText('IOO_Net_Price','Net Price')"
+                v-bind:Price="this.ListItem.ProductModel.Product.NetPrice"
+              ></sana-price>
+              <!-- if (zfSettings.ShowGrossPrice)-->
+              <sana-price
+                v-if="this.ShopContext
+                  && this.ShopContext.Settings
+                  && this.ShopContext.Settings.ZFSettings
+                  && this.ShopContext.Settings.ZFSettings.ShowGrossPrice"
+                v-bind:title="this.GetSanaText('IOO_Gross_Price','Gross Price')"
+                v-bind:Price="this.ListItem.ProductModel.Product.GrossPrice"
+              ></sana-price>
+            </span>
+          </div>
+          <!-- Qty box -->
+          <!-- eslint-disable max-len -->
+          <!-- @if (Shop.UserAbilities.Has(AbilityTo.OrderProducts))-->
+          <template v-if="this.UserHasAbilityTo('OrderProducts')">
+            <!-- if (product.IsOrderable)-->
+            <!--<template v-if="this.ListItem.ProductModel.Product.IsOrderable">-->
+            <sana-qty-box
+              v-bind:QuantityModel="null"
+              v-on:onQuantityChange="this.onQuantityChange"
+              v-bind:IsDisabled="!this.ListItem.ProductModel.Product.IsOrderable"
+            ></sana-qty-box>
+            <!--</template>-->
+            <!--<template v-else>
+              <span
+                class="msg-not-available"
+                v-text="this.GetSanaText('IOO_Product_NotAvailable','Product not available')"
+              >{{this.ListItem.ProductModel.Product.IsOrderable}}</span>
+            </template>-->
+          </template>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <div class="v-center-btn-block">
+              <template v-if="this.UserHasAbilityTo('OrderProducts')">
+                <sana-button
+                  v-bind:BtnId="getComponentId('btn',this.ListItem.ProductModel.Product.Id)"
+                  BtnClass="ioo-btn ioo-btn-primary"
+                  BtnTextClass="btn-text"
+                  BtnTitle="Add to basket"
+                  BtnTitleSanaTextKey="I00_AddtoBasketTitle"
+                  BtnText="Add to basket"
+                  BtnTextSanaTextKey="I00_AddtoBasketTitle"
+                  BtnPostTextClass="btn-cart-white"
+                  v-bind:IsDisabled="!this.ListItem.ProductModel.Product.IsOrderable"
+                  v-on:onButtonClick="onAddToBasket"
+                ></sana-button>
+              </template>
+            </div>
+          </div>
+          <div class="col-6 ioo-pr-20 pl-0">
+            <div class="v-center-btn-block">
+              <!--if (product.IsOrderable && product.Visible)-->
+              <template v-if="true">
+                <sana-link-button
+                  v-bind:BtnId="getComponentId('linkbtn',this.ListItem.ProductModel.Product.Id)"
+                  BtnClass="ioo-btn ioo-btn-default ioo-lt-20"
+                  BtnTextClass="btn-text"
+                  BtnTitle="Details"
+                  BtnTitleSanaTextKey="I00_DetailsButtonTitle"
+                  BtnText="Detail"
+                  BtnTextSanaTextKey="I00_DetailsButtonText"
+                  BtnRouteName="Detail"
+                  v-bind:BtnRouteParms="{ id: this.ListItem.ProductModel.Product.Id}"
+                  v-bind:BtnRouteQuery="{ redirect:redirectRoutePath }"
+                ></sana-link-button>
+              </template>
+              <template v-else>
+                <span
+                  class="msg-not-available"
+                  v-bind="this.GetSanaText('IOO_Product_NotAvailable','Product not available:')"
+                ></span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+import Stockindicator from "../shared/ui/StockIndicator.vue";
+import Dropdown from "../shared/ui/Dropdown.vue";
+import Button from "../shared/ui/Button.vue";
+import LinkButton from "../shared/ui/LinkButton.vue";
+import CheckInventory from "../shared/CheckInventory.vue";
+
+export default {
+  name: "ProductListItem",
+  components: {
+    "sana-qty-box": QtyBox,
+    "sana-price": PriceLabel,
+    "sana-stock": Stockindicator,
+    "sana-dropdown": Dropdown,
+    "sana-button": Button,
+    "sana-link-button": LinkButton,
+    "sana-inventory-check": CheckInventory
+  },
+  data() {
+    return {
+      selectedProductType: Object,
+      quantity: 0,
+      redirectRoutePath: this.$route.path
+    };
+  },
+  props: {
+    ListItem: {
+      type: Object
+    }
+  },
+  computed: {
+    stockModel() {
+      return this.ListItem ? this.ListItem.Stock : {};
+    },
+    // check product has cross reference number or not
+    hasCrossReference() {
+      return !!(this.ListItem && this.ListItem.CrossReferenceNumber !== "");
+    },
+    // return global inventory check types if available on data model
+    getGlobleInventoryCheckTypes() {
+      return this.ListItem
+        && this.ListItem.ProductModel
+        && this.ListItem.ProductModel.ProductType
+        && this.ListItem.ProductModel.ProductType.length > 0
+        ? this.ListItem.ProductModel.ProductType
+        : [];
+    }
+  },
+  methods: {
+    // method to reterive unique id for html element
+    // concat given name with id value and return
+    getComponentId(component, key) {
+      return `${component}_${key}`;
+    },
+    // set selected global inventory check type value to local data variable
+    onGlobleInventorySelectionChange(selectedItem) {
+      this.selectedProductType = selectedItem || null;
+    },
+    // reterive the globle inventory check type value of given field
+    // by default returns the 'Title' fields value
+    getProductType(field = "Title") {
+      // TODO: set Title or Id
+      const val = this.selectedProductType
+        ? this.selectedProductType[field]
+        : "";
+      return val;
+    },
+    // return the contity model for quantity box
+    // TODO: returns default model, remove default model if not needed
+    getQuantityModel() {
+      return this.ListItem
+        && this.ListItem.ProductModel
+        && this.ListItem.ProductModel.Quantity
+        ? this.ListItem.ProductModel.Quantity
+        : {
+          Step: 1,
+          Minimum: 1,
+          Maximum: 99999,
+          Current: 1
+        };
+    },
+    // handle qty box quantity change event
+    // update local data value accordingly
+    onQuantityChange(qty) {
+      this.quantity = qty;
+    },
+
+    // emit add tobasket event to parent componemnt.
+    onAddToBasket() {
+      const productModel = this.ListItem.ProductModel;
+      console.log("ListItem", this.ListItem);
+      if (productModel && productModel.Quantity) {
+        productModel.Quantity.Current = this.quantity;
+      }
+      this.$emit(
+        "onAddProductToBasket",
+        productModel,
+        this.selectedProductType.Id
+      );
+    }
+  }
+};
+</script>

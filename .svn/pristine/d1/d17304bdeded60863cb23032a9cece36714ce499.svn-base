@@ -1,0 +1,365 @@
+<template>
+  <div>
+    <div class="inner-header">
+      <!-- Appheader componenet  -->
+      <sana-app-header
+        v-bind:headerTitle="this.GetSanaText('IOO_SearchPage_Title','Search Result')"
+      />
+    </div>
+    <div class="row">
+      <div class="col-7">
+        <!-- search box -->
+        <sana-searchbox v-on:onSearch="handleProductSearch"></sana-searchbox>
+      </div>
+    </div>
+    <!-- search result container -->
+    <div>
+      <div
+        v-bind:class="listGridToggelButtonCss"
+        v-if="!this.IsDataLaoding && this.searchCount > 0"
+      >
+        <div class="col-lg-4 col-4 search-result-text">
+          <p v-text="searchResultSummarytext"></p>
+        </div>
+        <div class="col-lg-8 col-8">
+          <div class="sort-by-container">
+            <p v-text="this.GetSanaText('IOO_SearchPage_SortBy','Sort by:')"></p>
+            <sorting-dropdown
+              v-bind:SortOptions="this.pagingInfo ? this.pagingInfo.Sorting : {}"
+              v-on:onChangeSelection="onSortSelectionChange"
+            ></sorting-dropdown>
+          </div>
+          <div
+            class="view-list-grid-block float-right"
+            v-if="this.pagingInfo.ViewModeSwitchEnabled"
+          >
+            <ul>
+              <li>
+                <p class="text-view" v-text="this.GetSanaText('IOO_SearchPage_View','View:')">View:</p>
+              </li>
+              <li>
+                <a v-on:click="onViewChange(true)">
+                  <img class="img-fluid list-non-active-img" src="@/assets/icon-list.png">
+                  <img class="img-fluid list-active-img" src="@/assets/icon-list-active.png">
+                </a>
+              </li>
+              <li>
+                <a v-on:click="onViewChange(false)">
+                  <img class="img-fluid grid-non-active-img" src="@/assets/icon-grid.png">
+                  <img class="img-fluid grid-active-img" src="@/assets/icon-grid-active.png">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="list-loading-block" v-if="this.IsDataLaoding">
+        <span>
+          <!-- <p v-text="this.GetSanaText('IOO_SearchPage_Loading','Loading....')"></p> -->
+          <img class="img-fluid" src="@/assets/loading.gif">
+        </span>
+      </div>
+      <div v-else>
+        <div v-if="searchResult.length > 0">
+          <!-- list items (grid/list) -->
+          <div v-bind:class="gridRowCssClass">
+            <div
+              v-bind:class="gridColCssClass"
+              v-for="(item,index) in searchResult"
+              v-bind:key="index"
+            >
+              <keep-alive>
+                <component
+                  v-bind:is="listViewComponent"
+                  v-bind:ListItem="item"
+                  v-on:onAddProductToBasket="handleAddToBasket"
+                ></component>
+              </keep-alive>
+            </div>
+          </div>
+          <div>
+            <!-- Pagging -->
+            <sana-paging
+              v-bind:PageIndex="searchOptions.pageno"
+              v-bind:TotalCount="searchResultHeader.TotalCount"
+              v-bind:InitialPageSize="searchOptions.pagesize"
+              v-on:changePageUrl="updatePageUrl"
+              v-on:onPageSizeCahnge="handlepageSizeChange"
+            ></sana-paging>
+            <!-- :PageSize="searchResultHeader.PageSize" -->
+            <!--  v-on:changePageUrl="updatePageUrl($event)"
+            v-bind:InitialPageSize="parseInt(9)"-->
+          </div>
+        </div>
+        <div v-else-if="!(searchResult.length > 0) && searchCount > 0">
+          <span>
+            <p v-text="this.GetSanaText('IOO_SearchPage_NoResult','No Results Found')"></p>
+          </span>
+        </div>
+        <div
+          class="search-error-msg"
+          v-if="!searchResult.length && !this.searchOptions.query.length"
+        >
+          <p v-text="this.GetSanaText('IOO_SearchPage_Search','Please search for results.')"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="dotted-border-block">
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapGetters } from "vuex";
+
+import basketHelper from "../../helpers/basket-helper";
+import { FETCH_SEARCH_RESULT } from "../../store/action-types";
+import {
+  GET_PRODUCT_LIST,
+  GET_SEARCHRESYULT_HEARDER,
+  GET_PAGINGINFO
+} from "../../store/getter-types";
+import Paging from "../shared/ui/Paging.vue";
+import SearchBox from "../shared/ui/SearchBox.vue";
+import SortingDropdown from "../shared/SortingDropdown.vue";
+
+const AppHeader = () =>
+  import(/* webpackChunkName:"app_header" */ "../shared/AppHeader.vue");
+const ListView = () =>
+  import(/* webpackChunkName:"list_view" */ "./ProductListItem.vue");
+const GridView = () =>
+  import(/* webpackChunkName:"grid_view" */ "./ProductGridItem.vue");
+
+export default {
+  name: "Search",
+
+  // components.
+  components: {
+    "sana-app-header": AppHeader,
+    "list-item": ListView,
+    "grid-item": GridView,
+    "sana-searchbox": SearchBox,
+    "sana-paging": Paging,
+    "sorting-dropdown": SortingDropdown
+  },
+
+  // local state.
+  data() {
+    return {
+      ListItems: {},
+      searchCount: 0,
+      IsDataLaoding: true,
+      searchOptions: { query: "", pageno: 1, pagesize: 9 },
+      listViewComponent: "list-item",
+      gridRowCssClass: "",
+      gridColCssClass: "",
+      listGridToggelButtonCss: "row list-action-container list-active"
+    };
+  },
+
+  // props for the compoment.
+  props: {},
+
+  // Life sycle hooks.
+  created() {
+    const {
+      query,
+      pagesize,
+      pageindex,
+      orderBy,
+      asec,
+      viewMode
+    } = this.$route.query;
+
+    const searchoptions = this.searchOptions;
+    if (query) {
+      searchoptions.query = query.substring(0, 50);
+    }
+    if (pagesize) {
+      searchoptions.pagesize = Number(pagesize);
+    }
+    if (pageindex) {
+      searchoptions.pageno = Number(pageindex);
+    }
+    if (orderBy) {
+      searchoptions.orderBy = orderBy;
+      if (asec === false || asec === "false") searchoptions.asec = false;
+    }
+    if (viewMode) {
+      if (viewMode && viewMode.toLowerCase() === "grid") {
+        searchoptions.viewMode = "grid";
+        this.onViewChange(false);
+      }
+    }
+    this.searchProducts();
+  },
+
+  mounted() {
+    if (
+      this.searchOptions
+      && (this.searchOptions.query === undefined
+        || this.searchOptions.query === null
+        || this.searchOptions.query === "")
+    ) {
+      this.IsDataLaoding = false;
+      return;
+    }
+    if (this.searchResult) {
+      this.IsDataLaoding = true;
+    }
+  },
+
+  // vue defult propetes for data manupilation.
+  watch: {
+    listViewComponent(newValue) {
+      if (newValue === "list-item") {
+        this.listGridToggelButtonCss = "row list-action-container list-active";
+      } else {
+        this.listGridToggelButtonCss = "row list-action-container grid-active";
+      }
+    }
+  },
+
+  filters: {},
+
+  computed: {
+    ...mapGetters("products", {
+      searchResult: GET_PRODUCT_LIST,
+      searchResultHeader: GET_SEARCHRESYULT_HEARDER,
+      pagingInfo: GET_PAGINGINFO
+    }),
+    searchResultSummarytext() {
+      const searchHeader = this.searchResultHeader;
+      let sanatextvalue = this.GetSanaText(
+        "IOO_SearchPage_SearchOn",
+        "Search on: {[seach-key]} - {[product-count]} product(s) found"
+      );
+      if (searchHeader) {
+        sanatextvalue = sanatextvalue
+          .replace("{[seach-key]}", this.searchOptions.query)
+          .replace("{[product-count]}", searchHeader.TotalCount);
+      }
+      return sanatextvalue;
+    },
+    selectedSortOption() {
+      return { Id: this.searchOptions.orderBy, asec: this.searchOptions.asec };
+    }
+  },
+
+  methods: {
+    ...mapActions("products", {
+      fetchSearchResult: FETCH_SEARCH_RESULT
+    }),
+    searchProducts() {
+      if (
+        this.searchOptions
+        && (this.searchOptions.query === undefined
+          || this.searchOptions.query === null
+          || this.searchOptions.query === "")
+      ) {
+        return;
+      }
+      this.IsDataLaoding = true;
+      this.searchCount = this.searchCount + 1;
+      this.fetchSearchResult(this.searchOptions).then(() => {
+        this.IsDataLaoding = false;
+
+        const query = {};
+        if (this.searchOptions.query !== "") {
+          query.query = this.searchOptions.query;
+        }
+        query.pageindex = this.searchOptions.pageno;
+        query.pagesize = this.searchOptions.pagesize;
+        if (this.searchOptions.orderBy) {
+          query.orderBy = this.searchOptions.orderBy;
+          if (this.searchOptions.asec === false) {
+            query.asec = false;
+          }
+        }
+        if (this.pagingInfo.ViewModeSwitchEnabled) {
+          if (this.searchOptions.viewMode) {
+            query.viewMode = this.searchOptions.viewMode;
+          }
+        } else if (
+          this.pagingInfo.DefaultViewMode === "List"
+          && this.searchOptions.viewMode
+        ) {
+          // let default view mode to be list view
+        } else {
+          query.viewMode = this.searchOptions.viewMode;
+        }
+        this.$router.push({
+          name: "Search",
+          query
+        });
+      });
+    },
+    updatePageUrl(updatedPageDetails) {
+      // on pagination, change only page size and page no on search option
+      const searchoptions = this.searchOptions;
+      searchoptions.pagesize = updatedPageDetails.PageSize;
+      searchoptions.pageno = updatedPageDetails.PageIndex;
+      this.searchProducts();
+    },
+
+    // events
+
+    // list/grid view togle event
+    onViewChange(islistview) {
+      if (!islistview) {
+        this.gridRowCssClass = "product-grid-container row ";
+        this.gridColCssClass = "col-4 ioo-mb-40";
+        this.listViewComponent = "grid-item";
+        const searchoptions = this.searchOptions;
+        searchoptions.viewMode = "grid";
+      } else {
+        this.gridRowCssClass = "";
+        this.gridColCssClass = "";
+        this.listViewComponent = "list-item";
+        const searchoptions = this.searchOptions;
+        searchoptions.viewMode = undefined;
+      }
+      this.searchProducts();
+    },
+
+    handlepageSizeChange(pageSize) {
+      const searchOption = this.searchOptions;
+      if (pageSize) {
+        searchOption.pagesize = pageSize;
+        this.searchProducts();
+      }
+    },
+
+    // sort option change event
+    onSortSelectionChange(sortoption) {
+      // on search update only orderby and asec on search options
+      const searchoptions = this.searchOptions;
+      searchoptions.orderBy = sortoption.orderBy;
+      searchoptions.asec = sortoption.asec;
+      this.searchProducts();
+    },
+
+    // search button click event
+    handleProductSearch(searchKey) {
+      // on search update only query string on search options
+      const searchoptions = this.searchOptions;
+      searchoptions.query = searchKey;
+      searchoptions.pageno = 1;
+      this.searchProducts();
+    },
+
+    handleAddToBasket(productModel, ProductTypeId) {
+      basketHelper.AddToCart(
+        productModel,
+        productModel.Quantity.Current,
+        ProductTypeId
+      );
+    }
+  }
+};
+</script>

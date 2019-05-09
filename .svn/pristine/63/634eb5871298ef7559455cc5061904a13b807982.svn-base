@@ -1,0 +1,148 @@
+<template>
+  <div class="grid-border">
+    <div class="product-img">
+      <img class="img-fluid" src="@/assets/lg-thumb-img.jpg">
+    </div>
+    <div class="product-info">
+      <div class="row">
+        <div class="col-7">
+          <!-- eslint-disable max-len -->
+          <a class="ioo-clearfix">
+            <h6 class="product-title" v-text="product.Title">Title</h6>
+          </a>
+          <span v-text="product.Id">Id</span>
+          <span class="ioo-mt-10 ioo-clearfix">
+            {{this.GetSanaText("CrossReference","Cross Reference:")
+            + this.product.CrossReferenceNumbers}}
+          </span>
+          <div class="ioo-mt-10 ioo-clearfix">
+            <sana-stock v-bind:StockModel="stock"></sana-stock>
+          </div>
+          <sana-inventory-check
+            v-bind:ProductId="product.Id"
+            v-bind:ProductType="selectedProductType"
+            v-bind:Quantity="this.quantity.toString()"
+          ></sana-inventory-check>
+        </div>
+        <div class="col-5">
+          <div class="product-price text-right">
+            <sana-price
+              v-bind:title="this.GetSanaText('IOO_Net_Price','Net Price')"
+              v-bind:Price="this.product.NetPrice"
+            ></sana-price>
+            <small>
+              <sana-price
+                v-bind:title="this.GetSanaText('IOO_Gross_Price','Gross Price')"
+                v-bind:Price="this.product.GrossPrice"
+              ></sana-price>
+            </small>
+          </div>
+          <div class="auro-increment-input text-right ioo-mt-10">
+            <sana-qty-box v-bind:QuantityModel="null" v-on:onQuantityChange="this.onQuantityChange"></sana-qty-box>
+          </div>
+        </div>
+      </div>
+      <div class="btn-block row clearfix text-center">
+        <div class="col-5 float-left pl-0 ioo-mw-100 ioo-dk-pr-0">
+          <sana-link-button
+            v-bind:BtnId="getComponentId('linkbtn',this.product.Id)"
+            BtnClass="ioo-btn ioo-btn-default"
+            BtnTextClass="btn-text"
+            BtnTitle="Details"
+            BtnTitleSanaTextKey="I00_DetailsButtonTitle"
+            BtnText="Detail"
+            BtnTextSanaTextKey="I00_DetailsButtonText"
+            BtnRouteName="Detail"
+            v-bind:BtnRouteParms="{ id: this.product.Id}"
+            v-bind:BtnRouteQuery="{ redirect:redirectRoutePath }"
+          ></sana-link-button>
+        </div>
+        <div class="col-7 float-left pr-0 ioo-mw-100 ioo-dk-pl-0">
+          <sana-button
+            BtnClass="ioo-btn ioo-btn-primary float-right"
+            BtnTextClass="btn-text"
+            v-bind:BtnId="getComponentId('btn',this.product.Id)"
+            BtnTitle="Add to basket"
+            BtnTitleSanaTextKey="I00_AddtoBasketTitle"
+            BtnText="Add to basket"
+            BtnTextSanaTextKey="I00_AddtoBasketTitle"
+            BtnPostTextClass="btn-cart-white"
+          ></sana-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import Stockindicator from "../shared/ui/StockIndicator.vue";
+import CheckInventory from "../shared/CheckInventory.vue";
+import LinkButton from "../shared/ui/LinkButton.vue";
+import QtyBox from "../shared/ui/QuantityBox.vue";
+import Button from "../shared/ui/Button.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+
+export default {
+  name: "LastViewedTabItems",
+  components: {
+    "sana-stock": Stockindicator,
+    "sana-inventory-check": CheckInventory,
+    "sana-link-button": LinkButton,
+    "sana-qty-box": QtyBox,
+    "sana-button": Button,
+    "sana-price": PriceLabel
+  },
+  props: {
+    LastViewditemModel: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      selectedProductType: "00",
+      quantity: 0,
+      redirectRoutePath: this.$route.path
+    };
+  },
+  computed: {
+    product() {
+      return this.LastViewditemModel && this.LastViewditemModel.Product
+        ? this.LastViewditemModel.Product
+        : {};
+    },
+    stock() {
+      return this.LastViewditemModel && this.LastViewditemModel.Stock
+        ? this.LastViewditemModel.Stock
+        : {};
+    },
+    productTypes() {
+      return this.LastViewditemModel
+        && this.LastViewditemModel.ProductType.length > 0
+        ? this.LastViewditemModel.ProductType
+        : [];
+    }
+  },
+  methods: {
+    // method to reterive unique id for html element
+    // concat given name with id value and return
+    getComponentId(component, key) {
+      return `${component}_${key}`;
+    },
+    /* events */
+    handleProductTypeSelection(selectedItem) {
+      this.selectedProductType = selectedItem.Id;
+    },
+    onQuantityChange(qty) {
+      this.quantity = qty;
+    },
+    // reterive the globle inventory check type value of given field
+    // by default returns the 'Title' fields value
+    getGlobalInventoryCheckType(field = "Title") {
+      // TODO: set Title or Id
+      return this.globalInventoryCheckType
+        ? this.globalInventoryCheckType[field]
+        : "";
+    }
+  }
+};
+</script>

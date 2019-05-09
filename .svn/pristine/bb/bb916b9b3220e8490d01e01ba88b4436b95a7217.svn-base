@@ -1,0 +1,12 @@
+// Customer Getters.
+
+import { GET_CURRENT_ACCOUNTS } from "../../getter-types";
+
+export default {
+  // get customer account list (item list) form state.
+  // return : array of customer account list items
+  [GET_CURRENT_ACCOUNTS]: (state) => {
+    if (state.Customer.CustomerAccounts) return state.Customer.CustomerAccounts;
+    return [];
+  }
+};

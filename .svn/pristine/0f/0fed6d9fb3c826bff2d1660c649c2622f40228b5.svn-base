@@ -1,0 +1,98 @@
+<template>
+  <router-link :to="routeObject">
+    <button
+      type="button"
+      v-bind:class="this.BtnClass"
+      v-bind:id="this.BtnId"
+      v-bind:title="this.getSanaTextValue(this.BtnTitleSanaTextKey, this.BtnTitle)"
+    >
+      <span class="btn-inner">
+        <template v-if="this.BtnPreTextClass">
+          <span v-bind:class="this.BtnPreTextClass"></span>
+        </template>
+        <span
+          v-bind:class="this.BtnTextClass"
+        >{{this.getSanaTextValue(this.BtnTextSanaTextKey, this.BtnText)}}</span>
+        <template v-if="this.BtnPostTextClass">
+          <span v-bind:class="this.BtnPostTextClass"></span>
+        </template>
+      </span>
+    </button>
+  </router-link>
+</template>
+
+<script>
+export default {
+  name: "SanaLinkButton",
+  props: {
+    BtnClass: {
+      type: String,
+      required: false
+    },
+    BtnPreTextClass: {
+      type: String,
+      required: false
+    },
+    BtnPostTextClass: {
+      type: String,
+      required: false
+    },
+    BtnTextClass: {
+      type: String,
+      required: false
+    },
+    BtnId: {
+      type: String,
+      required: true
+    },
+    BtnTitle: {
+      type: String,
+      required: true
+    },
+    BtnTitleSanaTextKey: {
+      type: String,
+      required: false
+    },
+    BtnText: {
+      type: String,
+      required: true
+    },
+    BtnTextSanaTextKey: {
+      type: String,
+      required: false
+    },
+    BtnRouteName: {
+      type: String,
+      required: true
+    },
+    // { id: this.ProductData.Id }
+    BtnRouteParms: {
+      type: Object,
+      required: false
+    }
+  },
+  computed: {
+    routeObject() {
+      if (this.BtnRouteName) {
+        return this.BtnRouteParms
+          ? { name: this.BtnRouteName, params: this.BtnRouteParms }
+          : { name: this.BtnRouteName };
+      }
+      return {};
+    }
+  },
+  methods: {
+    clickButton(data, emitEvent = true) {
+      if (emitEvent) {
+        this.$emit("onButtonClick");
+      }
+    },
+    getSanaTextValue(textKey, defaultValue) {
+      if (!textKey) {
+        return defaultValue || "";
+      }
+      return this.GetSanaText(textKey, defaultValue);
+    }
+  }
+};
+</script>

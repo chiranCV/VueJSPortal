@@ -1,0 +1,10 @@
+import { UPDATE_PRODUCTS_SATE } from "../../mutation-types";
+
+export default {
+  [UPDATE_PRODUCTS_SATE]: (state, payload) => {
+    const curentState = state;
+    if (payload) {
+      curentState.ProductList = payload;
+    }
+  }
+};

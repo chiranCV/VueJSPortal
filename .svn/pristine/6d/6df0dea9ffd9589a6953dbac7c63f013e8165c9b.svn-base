@@ -1,0 +1,21 @@
+.primary-color {
+  color: $zf-color-cyan !important;
+}
+.text-green {
+  color: $zf-color-green;
+}
+.text-red {
+  color: $zf-color-red;
+}
+.text-orange {
+  color: $zf-color-orange;
+}
+.colorBlackLight {
+  color: $black-light;
+}
+.color-black {
+  color: $black !important;
+}
+.color-black-light {
+  color: $black-light !important;
+}

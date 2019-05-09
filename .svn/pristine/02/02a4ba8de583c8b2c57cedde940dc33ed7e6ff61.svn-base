@@ -1,0 +1,17 @@
+// list all action types for teh app.
+
+// product action types.
+export const FETCH_SEARCH_RESULT = "FETCH_SEARCH_RESULT";
+export const FETCH_PRODUCT_DETAIL = "FETCH_PRODUCT_DETAIL";
+export const FETCH_SEARCH_SUGGESTIONS = "FETCH_SEARCH_SUGGESTIONS";
+export const FETCH_GLOBAL_INVENTORY = "FETCH_GLOBAL_INVENTORY";
+
+// content action types.
+export const FETCH_ALL_SANATEXT = "FETCH_ALL_SANATEXT";
+export const FETCH_SITE_SETTINGS = "FETCH_SITE_SETTINGS";
+
+// basket action types.
+export const FETCH_CURRENT_BASKET = "FETCH_CURRENT_BASKET";
+
+// customer action types.
+export const FETCH_ALL_CUSTOMER_ACCOUNT = "FETCH_ALL_CUSTOMER_ACCOUNT";

@@ -1,0 +1,34 @@
+@supports (-ms-ime-align: auto) {
+    .quantity-box-pm-ic-block {
+      .vnis__button {
+        &.vnis__button__decrement {
+          top: 8px;
+        }
+        &.vnis__button__increment {
+          top: -2px;
+        }
+      }
+    }
+    .search-list-container {
+      .qty-box-block {
+        input {
+          max-width: 80px;
+        }
+      }
+    }
+    .dotted-border-block {
+      span {
+        margin: 0 7px;
+      }
+    }
+    .list-action-container {
+      &.grid-active {
+        .grid-active-img {
+          margin-top: 2px;
+        }
+      }
+    }
+}
+
+
+

@@ -1,0 +1,84 @@
+<template>
+  <button
+    v-bind:class="this.BtnClass"
+    v-bind:id="this.BtnId"
+    v-bind:title="this.getSanaTextValue(this.BtnTitleSanaTextKey, this.BtnTitle)"
+    v-on:click="clickButton"
+    v-bind:disabled="IsDisabled"
+  >
+    <span class="btn-inner">
+      <template v-if="this.BtnPreTextClass">
+        <span v-bind:class="this.BtnPreTextClass"></span>
+      </template>
+      <span
+        v-bind:class="this.BtnTextClass"
+      >{{this.getSanaTextValue(this.BtnTextSanaTextKey, this.BtnText)}}</span>
+      <template v-if="this.BtnPostTextClass">
+        <span v-bind:class="this.BtnPostTextClass"></span>
+      </template>
+    </span>
+  </button>
+</template>
+
+<script>
+export default {
+  name: "SanaButton",
+  props: {
+    BtnClass: {
+      type: String,
+      required: false
+    },
+    BtnTextClass: {
+      type: String,
+      required: false
+    },
+    BtnPreTextClass: {
+      type: String,
+      required: false
+    },
+    BtnPostTextClass: {
+      type: String,
+      required: false
+    },
+    BtnId: {
+      type: String,
+      required: true
+    },
+    BtnTitle: {
+      type: String,
+      required: true
+    },
+    BtnTitleSanaTextKey: {
+      type: String,
+      required: false
+    },
+    BtnText: {
+      type: String,
+      required: true
+    },
+    BtnTextSanaTextKey: {
+      type: String,
+      required: false
+    },
+    IsDisabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  created() {},
+  methods: {
+    clickButton(emitEvent = true) {
+      if (emitEvent) {
+        this.$emit("onButtonClick");
+      }
+    },
+    getSanaTextValue(textKey, defaultValue) {
+      if (!textKey) {
+        return defaultValue || "";
+      }
+      return this.GetSanaText(textKey, defaultValue);
+    }
+  }
+};
+</script>

@@ -1,0 +1,352 @@
+<template>
+  <div v-if="!isLoading">
+    <div class="inner-header">
+      <sana-app-header
+        v-if="!this.IsPrintPreviewMode"
+        v-bind:headerTitle="this.GetSanaText('DetailsPage_Title','Product Details')"
+      />
+    </div>
+    <!-- Content Goes Here -->
+    <div class="product-details-page">
+      <div class="row">
+        <div class="col-5">
+          <div class="product-image">
+            <img src="../../assets/sm-thumb-img.jpg" class="img-fluid" alt srcset>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="product-info">
+            <div class="product-title">
+              <h3 class="font-bold" v-text="product.Title"></h3>
+            </div>
+            <div class="item-number">
+              <div class="row mb-2 black-light font-verdana">
+                <div class="col-2">{{this.GetSanaText('DetailsPage_ItemNo','Item No.')}}</div>
+                <div class="col-10">{{product.Id}}</div>
+              </div>
+              <div class="row mb-4 black-light font-verdana">
+                <div class="col-12">
+                  <span>{{this.GetSanaText('DetailsPage_NetWeight','Net weight:')}}</span>
+                  <span
+                    v-text="product.Weight + ' ' + this.GetSanaText('IOO_DetailsPage_Weight_'+this.ShopContext.WeightUnits,this.ShopContext.WeightUnits)"
+                  ></span> |
+                  <span>{{this.GetSanaText('DetailsPage_GrossWeight','Gross weight:')}}</span>
+                  <span
+                    v-text="product.ProductGrossWeight + ' ' + this.GetSanaText('IOO_DetailsPage_Weight_'+this.ShopContext.WeightUnits,this.ShopContext.WeightUnits)"
+                  ></span>
+                </div>
+              </div>
+              <br  v-if="this.IsPrintPreviewMode"/>
+              <div class="row ioo-mb-20 mt-2 font-verdana date-picker-container">
+                <div
+                  class="col-4 f-label"
+                >{{this.GetSanaText('DetailsPage_RequestedDeliveryDate','Requested Delivery date')}}</div>
+                <div class="col-8 date-picker-primary" v-if="!this.IsPrintPreviewMode">
+                  <date-picker v-bind:DisableDates="diableDates" v-on:onDateChange="onDateChange"></date-picker>
+                </div>
+                <div v-else v-text="PreSelectedRequestDeliveryDateValue"/>
+              </div>
+              <div class="row mb-3 font-verdana">
+                <div class="col-4 f-label">Quantity</div>
+                <div class="qty-box">
+                  <sana-quantiy-box
+                    v-if="!this.IsPrintPreviewMode"
+                    v-bind:QuantityModel="quantityModel"
+                    v-on:onQuantityChange="onQuantityChange"
+                  />
+                  <span v-else v-text="PreSelectedQuantityValue"></span>
+                  <span class="text-center float-left ioo-clearfix ioo-mt-10">Pcs</span>
+                </div>
+                <!-- <div class="col-2 qty-box">
+                    <input type="number" name id>
+                </div>-->
+                <div class="col-4 dropdown-list-text-only mt-3 pl-0">
+                  <sana-dropdown
+                    v-if="!this.IsPrintPreviewMode"
+                    SelectType="basic"
+                    v-bind:DataList="productTypes"
+                    IdField="Id"
+                    TextField="Title"
+                    v-bind:PreSelectedItemId="selectedProductTypeId"
+                    v-on:onChangeSelection="onProductTypeChangeSelection"
+                  />
+                  <span v-else v-text="PreSelectedProductTypeValue"></span>
+                </div>
+              </div>
+              <div class="row mb-3 font-verdana" v-if="this.UserHasAbilityTo('ViewPrices')">
+                <div class="col-4 f-label">{{this.GetSanaText('DetailsPage_Price','Price')}}</div>
+                <div class="col-8">
+                  <h6 class="mb-0 line-ht-22 font-bold">
+                    <sana-price
+                      v-if="this.ShopContext
+                  && this.ShopContext.Settings
+                  && this.ShopContext.Settings.ZFSettings
+                  && this.ShopContext.Settings.ZFSettings.ShowNetPrice"
+                      v-bind:Price="product.NetPrice"
+                    ></sana-price>
+                  </h6>
+                  <span>{{this.GetSanaText('DetailsPage_PricePerPiece','Price per Pieces excl. tax')}}</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <sana-inventory-check
+                    v-if="!this.IsPrintPreviewMode"
+                    v-bind:ProductId="this.product.Id"
+                    v-bind:ProductType="this.selectedProductTypeTitle"
+                    v-bind:Quantity="this.quantity.toString()"
+                    BtnPostTextClass="btn-arrow-right"
+                  ></sana-inventory-check>
+
+                  <template
+                    v-if="this.UserHasAbilityTo('OrderProducts') & !this.IsPrintPreviewMode"
+                  >
+                    <sana-button
+                      BtnId="addToCart"
+                      BtnClass="ioo-btn ioo-btn-primary"
+                      BtnTextClass="btn-text"
+                      BtnTitle="Add to basket"
+                      BtnTitleSanaTextKey="I00_AddtoBasketTitle"
+                      BtnText="Add to basket"
+                      BtnTextSanaTextKey="I00_AddtoBasketTitle"
+                      BtnPostTextClass="btn-cart-white"
+                      v-bind:IsDisabled="!this.product.IsOrderable"
+                      v-on:onButtonClick="handleAddToBasket"
+                    ></sana-button>
+                  </template>
+                </div>
+
+                <sana-button
+                  v-if="this.IsPrintPreviewMode && !isChromeBrowser()"
+                  v-bind:BtnId="'PrintPreviewPrint'"
+                  BtnClass="ioo-btn ioo-btn-primary print-preview-btn"
+                  BtnTitle="Print"
+                  BtnTitleSanaTextKey="IOO_PrintPreviewPrint"
+                  BtnText="Print"
+                  BtnPostTextClass="btn-arrow-right"
+                  v-on:onButtonClick="printWondow"
+                ></sana-button>
+
+                <div class="col-4" v-if="!this.IsPrintPreviewMode">
+                  <sana-print-preview
+                    v-bind:PreSelectedQuantity="quantity.toString()"
+                    v-bind:PreSelectedRequestDeliveryDate="selectedDate.toString()"
+                    v-bind:PreSelectedProductType="selectedProductTypeTitle"
+                  ></sana-print-preview>
+                </div>
+              </div>
+            </div>
+            <div class="item-info"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="!this.IsPrintPreviewMode">
+      <sana-last-viewed
+        v-if="(lastViewdItemList)"
+        v-bind:ProductId="this.$route.params.id"
+        v-bind:LastViewdItemList="lastViewdItemList"
+      ></sana-last-viewed>
+      <sana-back-button BtnTextSanaTextKey="IOO_Button_Back" BtnDefultText="Back"></sana-back-button>
+      <!--  Content ends -->
+      <div class="row">
+        <div class="col-12">
+          <div class="dotted-border-block">
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { mapActions, mapState } from "vuex";
+import moment from "moment";
+import datePicker from "../shared/ui/Date.vue";
+import {
+  FETCH_PRODUCT_DETAIL,
+  FETCH_LASTVIEWED_ITEMS
+} from "../../store/action-types";
+import globalHelper from "../../helpers/GlobalHelper";
+import basketHelper from "../../helpers/basket-helper";
+import Dropdown from "../shared/ui/Dropdown.vue";
+import CheckInventory from "../shared/CheckInventory.vue";
+import QuantityBox from "../shared/ui/QuantityBox.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+// import RelatedItems from "../shared/RelatedItems.vue";
+import LastViewedProducts from "./LastViewedTab.vue";
+import BackButton from "../shared/ui/BackButton.vue";
+import PrintPreview from "../shared/PrintPreview.vue";
+import Button from "../shared/ui/Button.vue";
+
+const AppHeader = () =>
+  import(/* webpackChunkName:"app_header" */ "../shared/AppHeader.vue");
+
+export default {
+  name: "ProductDetail",
+  components: {
+    "sana-app-header": AppHeader,
+    "sana-dropdown": Dropdown,
+    "sana-inventory-check": CheckInventory,
+    "sana-quantiy-box": QuantityBox,
+    "sana-price": PriceLabel,
+    // "sana-related-items": RelatedItems,
+    "date-picker": datePicker,
+    "sana-back-button": BackButton,
+    "sana-last-viewed": LastViewedProducts,
+    "sana-print-preview": PrintPreview,
+    "sana-button": Button
+  },
+  data() {
+    return {
+      product: {},
+      detailsModel: {},
+      productTypes: [],
+      quantityModel: {},
+      quantity: 1,
+      selectedProductType: null,
+      selectedProductTypeId: null,
+      selectedProductTypeTitle: null,
+      lastViewdItemList: [],
+      isLoading: false,
+      diableDates: [],
+      selectedDate: moment(new Date(), "MM/DD/YYYY").format("MM/DD/YYYY")
+    };
+  },
+  props: {
+    IsPrintPreview: Boolean,
+    PreSelectedQuantity: {
+      type: String,
+      required: false
+    },
+    PreSelectedRequestDeliveryDate: {
+      type: String,
+      required: false
+    },
+    PreSelectedProductType: {
+      type: String,
+      required: false
+    }
+  },
+  created() {
+    this.onCreate();
+  },
+  methods: {
+    ...mapActions("products", {
+      fetchProductDetail: FETCH_PRODUCT_DETAIL,
+      fetchLastViewedItems: FETCH_LASTVIEWED_ITEMS
+    }),
+    onCreate() {
+      const productId = this.$route.params.id;
+      this.isLoading = true;
+      this.fetchProductDetail(productId).then(() => {
+        this.isLoading = false;
+        this.detailsModel = this.productDetailModel;
+        this.product = this.productDetailModel.Product;
+        this.productTypes = this.detailsModel.ProductType;
+        this.quantityModel = this.detailsModel.Quantity;
+        [this.selectedProductType] = this.productTypes;
+        this.selectedProductTypeId = this.selectedProductType.Id;
+        this.selectedProductTypeTitle = this.selectedProductType.Title;
+      });
+      this.lastViewedItems();
+      this.diableDates = this.disableDateList;
+    },
+    onQuantityChange(qty) {
+      this.quantity = qty;
+    },
+    onProductTypeChangeSelection(val) {
+      this.selectedProductTypeId = val.Id;
+      this.selectedProductTypeTitle = val.Title;
+    },
+
+    onDateChange(date) {
+      this.selectedDate = date;
+    },
+
+    handleAddToBasket() {
+      basketHelper.AddToCart(
+        this.detailsModel,
+        this.quantity,
+        this.selectedProductTypeId,
+        this.selectedDate
+      );
+    },
+
+    lastViewedItems() {
+      const productId = this.$route.params.id;
+      const lastviewIdList = globalHelper.addNewProductToLastviewedIdList(
+        productId
+      );
+      const lastViedLoadOptions = {
+        productIdList: lastviewIdList,
+        curentProductId: productId
+      };
+      this.fetchLastViewedItems(lastViedLoadOptions).then(() => {
+        this.lastViewdItemList = this.lastViewedModel;
+      });
+    },
+    printWondow() {
+      window.print();
+    },
+    isChromeBrowser() {
+      const isChrome =        !!window.chrome
+        && (!!window.chrome.webstore || !!window.chrome.runtime);
+      return isChrome;
+    }
+  },
+  computed: {
+    ...mapState("products", {
+      // eslint-disable-next-line no-trailing-spaces
+      productDetailModel: state =>
+        // eslint-disable-next-line indent
+        state.Product,
+      // eslint-disable-next-line no-trailing-spaces
+      lastViewedModel: state =>
+        // eslint-disable-next-line indent
+        state.LastViewItems
+    }),
+    ...mapState("content", {
+      // eslint-disable-next-line no-trailing-spaces
+      disableDateList: state =>
+        // eslint-disable-next-line indent
+        state.DisableDates
+    }),
+    IsPrintPreviewMode() {
+      return this.IsPrintPreview || this.$route.query.print === "1";
+    },
+    PreSelectedProductTypeValue() {
+      if (this.$route.query.print === "1" && this.$route.query.type) {
+        return this.$route.query.type;
+      }
+      return this.PreSelectedProductType;
+    },
+    PreSelectedRequestDeliveryDateValue() {
+      if (this.$route.query.print === "1" && this.$route.query.date) {
+        return this.$route.query.date;
+      }
+      return this.PreSelectedRequestDeliveryDate;
+    },
+    PreSelectedQuantityValue() {
+      if (this.$route.query.print === "1" && this.$route.query.quantity) {
+        return this.$route.query.quantity;
+      }
+      return this.PreSelectedQuantity;
+    }
+  },
+  watch: {
+    $route(newRoute, oldRoute) {
+      if (
+        newRoute
+        && oldRoute
+        && newRoute.name === oldRoute.name
+        && newRoute.params
+        && oldRoute.params
+        && newRoute.params.id !== oldRoute.params.id
+      ) {
+        this.onCreate();
+      }
+    }
+  }
+};
+</script>

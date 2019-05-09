@@ -1,0 +1,212 @@
+<template>
+  <div>
+    <div class="row search-list-container ioo-no-gutters">
+      <div class="col-4 pl-0">
+        <div class="row ioo-no-gutters">
+          <div class="col-3 pl-0 pr-0">
+            <div class="list-avatar-block">
+              <img src="@/assets/md-thumb-img.jpg">
+            </div>
+          </div>
+          <div class="col-9 ioo-pl-20">
+            <h6
+              v-text="this.ListItem.ProductModel.Product.Title"
+              v-bind:title="this.ListItem.ProductModel.Product.Title"
+            ></h6>
+            <span v-text="this.ListItem.ProductModel.Product.Id"></span>
+            <span class="list-dropdown-text">
+              <sana-dropdown
+                SelectType="basic"
+                v-bind:DataList="this.getGlobleInventoryCheckTypes"
+                v-bind:PreSelecteditem="this.getGlobleInventoryCheckTypes[0]"
+                IdField="Id"
+                TextField="Title"
+                DefaultText="Select Type"
+                DefaultTextSanaTextKey="IOO_GlobalInventoryCheck_Type_DefaultText"
+                v-on:onChangeSelection="setGlobleInventoryCheckTypes"
+              ></sana-dropdown>
+            </span>
+            <div class="ioo-clearfix ioo-mb-8">
+              <!--TODO: Remove ! (not) from below snippit,
+              so lable will be hiddin if cross reference is not available
+              remove 'v-if' if this validation is not required-->
+              <template v-if="!this.hasCrossReference">
+                <span>
+                  {{this.GetSanaText("CrossReference","Cross Reference:")
+                  + this.ListItem.CrossReferenceNumber}}
+                </span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 ioo-dpl-55">
+        <div class="d-inline-flex">
+          <div class="v-center-block pr-4 stext-li-container">
+            <!-- stock indicator -->
+            <sana-stock v-bind:StockModel="stockModel"></sana-stock>
+          </div>
+          <div class="v-center-btn-block pr-4">
+            <!--TODO: Remove commented button after UI fixed are done for inventory check button-->
+            <!--<button
+              class="ioo-sm-btn check-inv-btn"
+              type="button"
+              data-toggle="modal"
+              data-target="#inventoryCheck"
+            >Check Inventory</button>-->
+            <sana-inventory-check
+              v-bind:ProductId="this.ListItem.ProductModel.Product.Id"
+              v-bind:ProductType="this.getGlobalInventoryCheckType()"
+              v-bind:Quantity="this.quantity.toString()"
+            ></sana-inventory-check>
+          </div>
+          <div class="v-center-block pr-4 sprice-li-container">
+            <span class="list-price-text">
+              <sana-price
+                v-bind:title="this.GetSanaText('IOO_Net_Price','Net Price')"
+                v-bind:Price="this.ListItem.ProductModel.Product.NetPrice"
+              ></sana-price>
+              <small>
+                <sana-price
+                  v-bind:title="this.GetSanaText('IOO_Gross_Price','Gross Price')"
+                  v-bind:Price="this.ListItem.ProductModel.Product.GrossPrice"
+                ></sana-price>
+              </small>
+            </span>
+          </div>
+          <!-- Qty box -->
+          <!-- eslint-disable max-len -->
+          <sana-qty-box v-bind:QuantityModel="null" v-on:onQuantityChange="this.onQuantityChange"></sana-qty-box>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <div class="v-center-btn-block">
+              <sana-button
+                BtnClass="ioo-btn ioo-btn-primary"
+                BtnTextClass="btn-text"
+                v-bind:BtnId="getComponentId('btn',this.ListItem.ProductModel.Product.Id)"
+                BtnTitle="Add to basket"
+                BtnTitleSanaTextKey="I00_AddtoBasketTitle"
+                BtnText="Add to basket"
+                BtnTextSanaTextKey="I00_AddtoBasketTitle"
+                BtnPostTextClass="btn-cart-white"
+              ></sana-button>
+            </div>
+          </div>
+          <div class="col-6 ioo-pr-20 pl-0">
+            <div class="v-center-btn-block">
+              <sana-link-button
+                v-bind:BtnId="getComponentId('linkbtn',this.ListItem.ProductModel.Product.Id)"
+                BtnClass="ioo-btn ioo-btn-default"
+                BtnTextClass="btn-text"
+                BtnTitle="Details"
+                BtnTitleSanaTextKey="I00_DetailsButtonTitle"
+                BtnText="Detail"
+                BtnTextSanaTextKey="I00_DetailsButtonText"
+                BtnRouteName="Detail"
+                v-bind:BtnRouteParms="{ id: this.ListItem.ProductModel.Product.Id}"
+                v-bind:BtnRouteQuery="{ redirect:redirectRoutePath }"
+              ></sana-link-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+import Stockindicator from "../shared/ui/StockIndicator.vue";
+import Dropdown from "../shared/ui/Dropdown.vue";
+import Button from "../shared/ui/Button.vue";
+import LinkButton from "../shared/ui/LinkButton.vue";
+import CheckInventory from "../shared/CheckInventory.vue";
+
+export default {
+  name: "ProductListItem",
+  components: {
+    "sana-qty-box": QtyBox,
+    "sana-price": PriceLabel,
+    "sana-stock": Stockindicator,
+    "sana-dropdown": Dropdown,
+    "sana-button": Button,
+    "sana-link-button": LinkButton,
+    "sana-inventory-check": CheckInventory
+  },
+  data() {
+    return {
+      globalInventoryCheckType: "",
+      quantity: 0,
+      redirectRoutePath: this.$route.path
+    };
+  },
+  props: {
+    ListItem: {
+      type: Object
+    }
+  },
+  mounted() {
+    console.log("redirectRoute", this.redirectRoutePath);
+  },
+  computed: {
+    stockModel() {
+      return this.ListItem ? this.ListItem.Stock : {};
+    },
+    // check product has cross reference number or not
+    hasCrossReference() {
+      return !!(this.ListItem && this.ListItem.CrossReferenceNumber !== "");
+    },
+    // return global inventory check types if available on data model
+    getGlobleInventoryCheckTypes() {
+      return this.ListItem
+        && this.ListItem.ProductModel
+        && this.ListItem.ProductModel.ProductType
+        && this.ListItem.ProductModel.ProductType.length > 0
+        ? this.ListItem.ProductModel.ProductType
+        : [];
+    }
+  },
+  methods: {
+    // method to reterive unique id for html element
+    // concat given name with id value and return
+    getComponentId(component, key) {
+      return `${component}_${key}`;
+    },
+    // set selected global inventory check type value to local data variable
+    setGlobleInventoryCheckTypes(selectedItem) {
+      this.globalInventoryCheckType = selectedItem || null;
+    },
+    // reterive the globle inventory check type value of given field
+    // by default returns the 'Title' fields value
+    getGlobalInventoryCheckType(field = "Title") {
+      // TODO: set Title or Id
+      return this.globalInventoryCheckType
+        ? this.globalInventoryCheckType[field]
+        : "";
+    },
+    // return the contity model for quantity box
+    // TODO: returns default model, remove default model if not needed
+    getQuantityModel() {
+      return this.ListItem
+        && this.ListItem.ProductModel
+        && this.ListItem.ProductModel.Quantity
+        ? this.ListItem.ProductModel.Quantity
+        : {
+          Step: 1,
+          Minimum: 1,
+          Maximum: 99999,
+          Current: 1
+        };
+    },
+    // handle qty box quantity change event
+    // update local data value accordingly
+    onQuantityChange(qty) {
+      this.quantity = qty;
+    }
+  }
+};
+</script>

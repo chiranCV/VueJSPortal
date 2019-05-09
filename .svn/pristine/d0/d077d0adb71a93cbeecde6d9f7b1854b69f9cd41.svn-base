@@ -1,0 +1,126 @@
+<template>
+  <div>
+    <div class="row search-list-container ioo-no-gutters">
+      <div class="col-4 pl-0">
+        <div class="row ioo-no-gutters">
+          <div class="col-3 pl-0 pr-0">
+            <div class="list-avatar-block">
+              <img src="@/assets/md-thumb-img.jpg">
+            </div>
+          </div>
+          <div class="col-9 ioo-pl-20">
+            <h6
+              v-text="this.ListItem.ProductModel.Product.Title"
+              v-bind:title="this.ListItem.ProductModel.Product.Title"
+            ></h6>
+            <span v-text="this.ListItem.ProductModel.Product.Id"></span>
+            <span class="list-dropdown-text">
+              <span v-text="this.GetSanaText('IOO_GlobalInventoryCheck_Type', 'Type')"></span>
+              <sana-dropdown
+                v-bind:DataList="this.getGlobleInventoryCheckTypes"
+                IdField="Id"
+                TextField="Title"
+                DefaultText="Select Type"
+                DefaultTextSanaTextKey="IOO_GlobalInventoryCheck_Type_DefaultText"
+              ></sana-dropdown>
+            </span>
+            <div>
+              <template v-if="!this.hasCrossReference">
+                <span>
+                  {{this.GetSanaText("CrossReference","Cross Reference:")
+                  + this.ListItem.CrossReferenceNumber}}
+                </span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 ioo-dpl-55">
+        <div class="d-inline-flex">
+          <div class="v-center-block pr-4">
+            <!-- stock indicator -->
+            <sana-stock v-bind:StockModel="stockModel"></sana-stock>
+          </div>
+          <div class="v-center-btn-block pr-4">
+            <button
+              class="ioo-sm-btn check-inv-btn"
+              type="button"
+              data-toggle="modal"
+              data-target="#inventoryCheck"
+            >Check Inventory</button>
+          </div>
+          <div class="v-center-block pr-4">
+            <span class="list-price-text">
+              <sana-price v-bind:Price="156.35"></sana-price>
+            </span>
+          </div>
+          <!-- Qty box -->
+          <sana-qty-box v-bind:QuantityModel="null"></sana-qty-box>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <div class="v-center-btn-block">
+              <button class="ioo-btn ioo-btn-primary">
+                <span class="btn-inner">
+                  <span class="btn-text">Add to basket</span>
+                  <span class="btn-cart-white"></span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="col-6 ioo-pr-20 pl-0">
+            <div class="v-center-btn-block">
+              <button class="ioo-btn ioo-btn-default" @click="this.viewListItem">Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+import Stockindicator from "../shared/ui/StockIndicator.vue";
+import Dropdown from "../shared/ui/Dropdown.vue";
+
+export default {
+  name: "ProductListItem",
+  components: {
+    "sana-qty-box": QtyBox,
+    "sana-price": PriceLabel,
+    "sana-stock": Stockindicator,
+    "sana-dropdown": Dropdown
+  },
+  props: {
+    ListItem: {
+      type: Object
+    }
+  },
+  computed: {
+    stockModel() {
+      return this.ProductModel ? this.ProductModel.Stock : {};
+    },
+    hasCrossReference() {
+      return !!(this.ListItem && this.ListItem.CrossReferenceNumber !== "");
+    },
+    getGlobleInventoryCheckTypes() {
+      return this.ListItem
+        && this.ListItem.ProductModel
+        && this.ListItem.ProductModel.ProductType
+        && this.ListItem.ProductModel.ProductType.length > 0
+        ? this.ListItem.ProductModel.ProductType
+        : [];
+    }
+  },
+  methods: {
+    viewListItem() {
+      console.log("List Item:", this.ListItem);
+      return "101";
+    }
+  }
+};
+</script>

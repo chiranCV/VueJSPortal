@@ -1,0 +1,105 @@
+.product-grid-container {
+  .grid-border {
+    border: 1px solid #ddd;
+    margin-bottom: 40px;
+  }
+  .product-img {
+    img {
+      width: 100%;
+    }
+  }
+  .product-info {
+    padding: 20px 20px 0 20px;
+    font-family: "Verdana", sans-serif;
+    span {
+      float: left;
+    }
+    .product-title {
+      line-height: 28px;
+      font-weight: bold;
+    }
+    .product-price {
+      line-height: 18px;
+      font-weight: bold;
+      padding-top: 5px;
+    }
+    .auro-increment-input {
+      input {
+        width: 89px;
+        height: 38px;
+        border: 1px solid #bfbfbf;
+        border-radius: 0px !important;
+        background-color: #ffffff;
+        padding: 5px;
+        text-align: center;
+      }
+    }
+    .list-dropdown-text {
+      padding-bottom: 5px;
+      position: relative;
+      ul {
+        min-width: 1vw;
+        min-width: 65px;
+        padding-bottom: 0;
+        padding: 0;
+        right: -20px;
+        left: auto !important;
+  
+        li {
+          width: 100%;
+          padding: 5px 5px 0 5px;
+          float: left;
+          a {
+            color: $black !important;
+          }
+        }
+      }
+      .down-arrow {
+        &:before {
+          content: "";
+          background-image: url("./assets/arrow-blue-down.svg");
+          background-repeat: no-repeat;
+          width: 11px;
+          height: 6px;
+          position: absolute;
+          right: -15px;
+          top: 5px;
+        }
+      }
+    }
+    .ioo-sm-btn {
+      font-size: 10px;
+      line-height: 11px;
+      height: 22px;
+      min-width: auto;
+      float: left;
+      margin-top: 10px;
+    }
+    .btn-block {
+      margin: 20px 0;
+      .ioo-btn-default {
+       min-width: 140px;
+       .btn-inner {
+         width: 100%;
+       }
+      }
+      .ioo-btn-primary  {
+        width: 155px;
+      }
+    }
+  }
+  .check-inv-btn {
+    width: auto;
+  }
+  
+}
+@media screen and (max-width: 1199px) {
+  .btn-block {
+    .ioo-btn-primary  {
+      margin-top: 10px;
+    }
+    .ioo-btn-default {
+      min-width: 155px !important;
+    }
+  }
+}

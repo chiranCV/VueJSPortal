@@ -1,0 +1,7 @@
+@media print {
+    .ioo-btn{
+        display: none;
+    }
+
+
+}

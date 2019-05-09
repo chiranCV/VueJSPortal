@@ -1,0 +1,26 @@
+import Vue from "vue";
+import Router from "vue-router";
+
+Vue.use(Router);
+const Search = () => import(/* webpackChunkName:"Search" */ "../components/product_list/Search.vue");
+const Basket = () => import(/* webpackChunkName:"Basket" */ "../components/basket/Basket.vue");
+const ProductDetail = () => import(/* webpackChunkName:"ProductDetail" */ "../components/product-detail/ProductDetail.vue");
+export default new Router({
+  routes: [
+    {
+      path: "/",
+      name: "Search",
+      component: Search
+    },
+    {
+      path: "/basket",
+      name: "Basket",
+      component: Basket
+    },
+    {
+      path: "/Product",
+      name: "Product",
+      component: ProductDetail
+    }
+  ]
+});

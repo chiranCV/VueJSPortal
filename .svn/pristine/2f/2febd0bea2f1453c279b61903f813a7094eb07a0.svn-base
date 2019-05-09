@@ -1,0 +1,10 @@
+@supports (-ms-ime-align: auto) {
+    .quantity-box-pm-ic-block {
+      .vnis__button {
+        
+      }
+    }
+}
+
+
+

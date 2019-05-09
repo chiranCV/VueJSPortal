@@ -1,0 +1,309 @@
+<template>
+  <div class="app-wrapper">
+    <div class="container">
+      <div class="iooContainer">
+        <div class="row inner-header">
+          <div class="col-lg-6 col-5 ">
+            <h1 class="mb-0 h2">Search Result</h1>
+          </div>
+          <div class="col-lg-6 col-7">
+            <a href="#" class="online-shop-link-txt"><span class="online-shop-link-txt-img"><img
+                  src="@/assets/arrow-left.svg" class="img-fluid"></span><a href="#/"><span>
+                  Online Shop
+                  <br>Overview
+                </span></a></a>
+            <div class="dropdown cart-dropdown-container">
+                <button class="ioo-btn ioo-btn-default" data-toggle="dropdown">
+              <span class="btn-inner">
+                  <span class="btn-cart"></span>
+                   <span class="btn-text">3 Products(s)</span>
+                  </span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="ioo-mb-20">
+                  <p class="font-weight-bold">The following has been added to your shopping basket.
+                  </p>
+                </li>
+                <li>
+                  <div class="row">
+                    <div class="col-5 ioo-pr-10">
+                      <img class="drop-down-img" alt="108 * 78" src="@/assets/sm-thumb-img.jpg">
+                    </div>
+                    <div class="col-7 ioo-pl-10">
+                      <p>Brake Disc</p>
+                      <div class="colorBlackLight smFont">3311302 029 01 (Standard)</div>
+                      <div class="font-weight-bold smFont ioo-mt-10">3 Pieces</div>
+                    </div>
+                  </div>
+                    <!-- eslint-disable max-len -->
+                  <div class="row">
+                    <div class="col-12">
+                           <button class="ioo-btn ioo-btn-primary btn-checkout" data-toggle="dropdown">
+             <span class="btn-inner">
+                  <span class="btn-text">Checkout</span>
+                   <span class="btn-arrow-right"></span>
+                  </span>
+              </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="cus-info-block">
+              <h6>Customer 123456<img class="iconWarn" src="@/assets/icon-warning.png" /></h6>
+              <div>
+                <a class="zfbtn ioo-pt-2 " data-toggle="dropdown">Change
+                  <span class="downArrow"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <div class="form-group search-block">
+                      <img class="img-fluid" src="@/assets/search-left.png" />
+                      <input type="text">
+                    </div>
+                  </li>
+                  <li>
+                    <ul class="application-list-block">
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                      <li><a> 8373940 | Test Company, Division Sweden</a> </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <button class="zfbtn primaryBtn " type="button">Go to application
+                      Overview</button>
+                  </li>
+                </ul>
+                <div class="hr-seprator">
+                </div>
+                <a class="ioo-pt-2">Manage Account</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-7">
+            <div class="input-group search-container">
+              <input type="text" class="form-control" placeholder="Product name or item number"
+                aria-label="Product name or item number" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="ioo-btn ioo-btn-primary no-edge">
+               <span class="btn-inner">
+                    <span class="btn-text">Search</span>
+                    <span class="btn-search-icon"></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row list-action-container">
+           <div class="col-lg-6 col-4">
+            <p>Search on: brake disc - 132 product(s) found</p>
+          </div>
+           <div class="col-lg-6 col-8">
+            <div class="view-list-grid-block">
+              <ul>
+                <li>
+                  <p class="text-view">View:</p>
+                </li>
+                <li>
+                  <a>
+                    <img class="img-fluid" src="@/assets/icon-list.png" />
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <img class="img-fluid" src="@/assets/icon-grid.png" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="sort-by-container">
+              <p>Sort by:</p>
+              <div class="dropdown">
+                <div class="btn btn-default" data-toggle="dropdown"><span>Relevance</span>
+                  <div class="down-arrow"></div>
+                </div>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a>Relevance</a></li>
+                  <li><a>Item number
+                      <span> <img class="img-fluid" src="@/assets/arrow-grey-up.png" /></span>
+                    </a></li>
+                  <li><a>Item number
+                      <span> <img class="img-fluid" src="@/assets/arrow-grey-down.png" /></span>
+                    </a></li>
+                  <li><a>Product name
+                      <span> <img class="img-fluid" src="@/assets/arrow-grey-up.png" /></span>
+                    </a></li>
+                  <li><a>Product name
+                      <span> <img class="img-fluid" src="@/assets/arrow-grey-down.png" /></span>
+                    </a></li>
+                  <li><a>Basic number
+                      <span> <img class="img-fluid" src="@/assets/arrow-grey-up.png" /></span>
+                    </a></li>
+                  <li><a>Basic number
+                      <span> <img class="img-fluid" src="@/assets/arrow-grey-up.png" /></span>
+                    </a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="product-grid-container row">
+          <div class="col-4">
+                  <div class="grid-border">
+          <div class="product-img">
+          <img class="img-fluid" src="@/assets/lg-thumb-img.jpg">
+            </div>
+                <div class="product-info">
+          <div class="row">
+            <div class="col-7">
+              <h6 class="product-title">Clutch Actuation System</h6>
+              </div>
+                <div class="col-5">
+              <p class="product-price">&#8364; 584,40</p>
+              </div>
+            </div>
+            </div>
+            </div>
+            </div>
+                <div class="col-4">
+          <div class="product-img">
+          <img src="@/assets/lg-thumb-img.jpg">
+            </div>
+                <div class="product-img">
+          <img src="@/assets/md-thumb-img.jpg">
+            </div>
+            </div>
+          </div>
+      <div class="row bottom-container">
+        <div class="col-4">
+          <p>Result 1-9 of 186</p>
+        </div>
+        <div class="col-4">
+          <div class="paggination-block">
+            <ul>
+              <li>
+                <a>
+                  <img class="img-fluid" alt="Vue logo" src="@/assets/paggination-left.png">
+                </a>
+              </li>
+              <li>
+                <a class="active">
+                  1
+                </a>
+              </li>
+              <li>
+                <a>2
+                </a>
+              </li>
+              <li>
+                <a>3
+                </a>
+              </li>
+              <li>
+                <a>4
+                </a>
+              </li>
+              <li>
+                <a>5
+                </a>
+              </li>
+              <li class="pagination-dots">
+                <a>...
+                </a>
+              </li>
+              <li>
+                <a>
+                  <img class="img-fluid" alt="Vue logo" src="@/assets/paggination-right.png">
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="show-by-container">
+            <p>Show:</p>
+
+            <div class="dropdown">
+              <div class="btn btn-default" data-toggle="dropdown"><span>9</span>
+                <div class="downArrow"></div>
+              </div>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li><a>1</a></li>
+                <li><a>2</a></li>
+                <li><a>3</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="dotted-border-block">
+            <span></span>
+          </div>
+        </div>
+      </div>
+      <div id="inventoryCheck" class="modal fade" role="dialog">
+    <div  class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">0091.301.120(Standard)</h4>
+                <h6>Item: 0091.301.120</h6>
+                <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+<div class="ioo-table">
+<div class="ioo-table-row">
+<div class="ioo-table-head">Supplier code</div>
+<div  class="ioo-table-head">Date</div>
+<div  class="ioo-table-head">Supplier stock</div>
+<div class="ioo-table-head">Message</div>
+</div>
+<div class="ioo-table-body">
+<div class="ioo-table-row">
+<div class="ioo-table-cell"> ZFTBR</div>
+<div class="ioo-table-cell">2019-04-04T00:00:00</div>
+<div class="ioo-table-cell">53</div>
+<div class="ioo-table-cell">dsd</div>
+</div>
+<div class="ioo-table-row">
+<div class="ioo-table-cell"> ZFTBR</div>
+<div class="ioo-table-cell">2019-04-04T00:00:00</div>
+<div class="ioo-table-cell">53</div>
+<div class="ioo-table-cell">dsd</div>
+</div>
+<div class="ioo-table-row">
+<div class="ioo-table-cell"> ZFTBR</div>
+<div class="ioo-table-cell">2019-04-04T00:00:00</div>
+<div class="ioo-table-cell">53</div>
+<div class="ioo-table-cell">dsd</div>
+</div>
+<div class="ioo-table-row">
+<div class="ioo-table-cell"> ZFTBR</div>
+<div class="ioo-table-cell">2019-04-04T00:00:00</div>
+<div class="ioo-table-cell">53</div>
+<div class="ioo-table-cell">dsd</div>
+</div>
+<div class="ioo-table-row">
+<div class="ioo-table-cell"> ZFTBR</div>
+<div class="ioo-table-cell">2019-04-04T00:00:00</div>
+<div class="ioo-table-cell">53</div>
+<div class="ioo-table-cell">dsd</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+  </div>
+</div>
+</template>

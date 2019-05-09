@@ -1,0 +1,97 @@
+<template>
+  <div>
+    <a v-on:click.stop.prevent="openPrintPreview" class="float-right print-btn-block">
+      <div class="d-flex flex-row float-right pt-2">
+        <div class="pr-2">
+          <span
+            class="primary-color font-verdana"
+            v-text="this.GetSanaText('IOO_DetailsPagePrintPreview','Print preview')"
+          ></span>
+        </div>
+        <div>
+          <img class="img-fluid" src="@/assets/print.svg">
+        </div>
+      </div>
+    </a>
+    <sana-model-popup ref="print_preview_model_popup">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" data-dismiss="modal" aria-label="Close" class="close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body dprint-container" id="printData">
+          <component
+            v-bind:is="dynamicComponent"
+            v-bind:IsPrintPreview="true"
+            v-bind:PreSelectedQuantity="PreSelectedQuantity"
+            v-bind:PreSelectedRequestDeliveryDate="PreSelectedRequestDeliveryDate"
+            v-bind:PreSelectedProductType="PreSelectedProductType"
+          ></component>
+        </div>
+        <sana-button
+          v-bind:BtnId="'PrintPreviewPrint'"
+          BtnClass="ioo-btn ioo-btn-primary print-preview-btn"
+          BtnTitle="Print"
+          BtnTitleSanaTextKey="IOO_PrintPreviewPrint"
+          BtnText="Print"
+             BtnPostTextClass="btn-arrow-right"
+          v-on:onButtonClick="printPage"
+        ></sana-button>
+      </div>
+    </sana-model-popup>
+  </div>
+</template>
+
+<script>
+import $ from "jquery";
+import Printd from "printd";
+import Button from "./ui/Button.vue";
+import ModelPopup from "./ui/ModelPopup.vue";
+import DetailsPage from "../product-detail/ProductDetail.vue";
+
+export default {
+  name: "PrintPreview",
+  components: {
+    "sana-button": Button,
+    "sana-model-popup": ModelPopup
+  },
+  props: {
+    PreSelectedQuantity: {
+      type: String,
+      required: false
+    },
+    PreSelectedRequestDeliveryDate: {
+      type: String,
+      required: false
+    },
+    PreSelectedProductType: {
+      type: String,
+      required: false
+    }
+  },
+  data() {
+    return {
+      dynamicComponent: DetailsPage
+    };
+  },
+  created() {},
+  methods: {
+    openPrintPreview() {
+      const element = this.$refs.print_preview_model_popup.$el;
+      $(element).modal("show");
+    },
+    printPage() {
+      let style;
+      const innerStyles = document.getElementsByTagName("style");
+      Array.from(innerStyles).forEach((element) => {
+        style += element.innerText;
+      });
+      const d = new Printd();
+      const styles = [style];
+      const data = document.getElementById("printData");
+      d.print(data, styles);
+    }
+  }
+};
+</script>

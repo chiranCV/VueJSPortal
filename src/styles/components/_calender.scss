@@ -1,0 +1,70 @@
+.zfContainer {
+  .vdp-datepicker__calendar {
+    padding: 10px 0;
+    span {
+      line-height: 40px !important;
+    }
+      .cell {
+        &.day {
+          &.selected {
+            color: #fff;
+          }
+        }
+        &.month {
+          &.selected {
+            color: #fff;
+          }
+        }
+        &.year {
+          &.selected {
+            color: #fff;
+          }
+        }
+      }
+
+  }
+  .tableDPContainer {
+
+    .vdp-datepicker {
+      input {
+        height: auto;
+        border: none;
+        text-align: right;
+      }
+
+ 
+    }
+    .calenderIcon {
+      img {
+        width: 23px;
+        float: right;
+      }
+      }
+  }
+  .dDPContainer {
+    .dPContainer {
+      position: relative;
+      .vdp-datepicker {
+        input {
+          width: 100%;
+          height: 39px;
+          font-size: 14px;
+            line-height: 16px;
+            padding: 10px 15px;
+
+        }
+        .vdp-datepicker__calendar {
+          width: 100%;
+        }
+      }
+      .calenderIcon {
+        position: absolute;
+        right: 7px;
+        top: 7px;
+        img {
+          width: 22px;
+        }
+      }
+    }
+  }
+}

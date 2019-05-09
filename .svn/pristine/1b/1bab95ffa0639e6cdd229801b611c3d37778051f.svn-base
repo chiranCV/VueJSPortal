@@ -1,0 +1,22 @@
+import Vue from "vue";
+import Vuex from "vuex";
+import PersistedState from "vuex-persistedstate";
+
+import productsModule from "./modules/products";
+import basketModule from "./modules/basket";
+import contentModule from "./modules/content";
+
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  modules: {
+    products: productsModule,
+    basket: basketModule,
+    content: contentModule
+  },
+  plugins: [
+    PersistedState({
+      paths: ["basket", "content"]
+    })
+  ]
+});

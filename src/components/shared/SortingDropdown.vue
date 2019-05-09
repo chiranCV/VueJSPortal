@@ -1,0 +1,125 @@
+<template>
+  <sana-dropdown
+    v-bind:DataList="this.sortOptions"
+    IdField="ddId"
+    TextField="Text"
+    v-bind:PreSelectedItemId="this.selectedItemId"
+    DefaultText="Select Type"
+    DefaultTextSanaTextKey="IOO_GlobalInventoryCheck_Type_DefaultText"
+    v-on:onChangeSelection="onChangeSelection"
+  ></sana-dropdown>
+</template>
+
+<script>
+import Dropdown from "./ui/Dropdown.vue";
+
+export default {
+  name: "SortingDropDown",
+  components: {
+    "sana-dropdown": Dropdown
+  },
+  props: {
+    SortOptions: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      revelanceId: "sort-revelence",
+      sortOptions: [],
+      selectedItemId: "",
+      orderBy: "",
+      asec: Boolean
+    };
+  },
+  created() {
+    this.orderBy = this.$route.query.orderBy;
+    this.asec = !!(this.orderBy && this.$route.query.asec === undefined);
+    this.getSortOptions();
+    this.getSelectedItemId();
+  },
+  watch: {
+    SortOptions() {
+      this.orderBy = this.$route.query.orderBy;
+      this.asec = !!(this.orderBy && this.$route.query.asec === undefined);
+      this.getSortOptions();
+      this.getSelectedItemId();
+    },
+    $route() {
+      this.orderBy = this.$route.query.orderBy;
+      this.asec = !!(this.orderBy && this.$route.query.asec === undefined);
+      this.getSortOptions();
+      this.getSelectedItemId();
+    }
+  },
+  methods: {
+    getSortOptions() {
+      const items = [];
+
+      let optionsArray = [];
+      if (this.SortOptions && this.SortOptions.Fields) {
+        optionsArray = this.SortOptions.Fields;
+      }
+
+      if (this.SortOptions && this.SortOptions.RelevanceAvailable) {
+        items.push({
+          ddId: this.revelanceId,
+          Id: this.GetSanaText("IOO_Relevance", "Relevance"),
+          Text: this.GetSanaText("IOO_Relevance", "Relevance")
+        });
+      }
+      if (optionsArray.length > 0) {
+        optionsArray.forEach((item) => {
+          items.push({
+            ddId: `${item.Name}_asec`,
+            Id: item.Name,
+            SortOrder: "asec",
+            Text: `<a><span>${
+              item.Title ? item.Title : item.Name
+            } </span><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RkY4QURFOEM0MTdDMTFFOTkwMzY5ODRCQTc0RDdGOTEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RkY4QURFOEI0MTdDMTFFOTkwMzY5ODRCQTc0RDdGOTEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MzVENjkwNjM0MTdBMTFFOTg2MDFDMkI0MTRCRTNCNjIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MzVENjkwNjQ0MTdBMTFFOTg2MDFDMkI0MTRCRTNCNjIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6VBGn9AAABoUlEQVR42mSSO0hCYRTHz70+wstV8LWI+FoCBQmbNAOpoS1waGyM9sSgySWkKAraamqpEBLX4KKDDuIQiCAuNoov1Ei9vrVzLhlhf7jLd8/vnP/5fx+TyWSs+Xz+xuv1nhqNxo9+vw8ymQwmkwnkcjkgMQwDP+Jns1nUarU+yjwez0u1Wt1vNpt7ZrM5plarRYLm8zlUKpVfEJutjUaj+1qtdtTr9TZYt9t9y/P8V7vdXk8mkwlRFDmVSgWLxWI5BeRyOTMYDKKtVutQqVSCTqd7Zh0OhxAIBHaw+BN/bAmC8DYcDiWYppJthK46nc4JTbbZbMcI3rE4FiwWy7vf7w9it1Gj0dhOpVKv0+kUOI4DtBdBNyFygLuFNBrNw3g8BqZUKkm28ADK5fJuOp0WEGJMJtOTQqEo4O6X1AQnhbVa7TVB0t4ELoXBQLFYDGaz2ThaZBAETBEwtAuDwXC2hEgs/FG32wWXy5Xw+XwHlCwVInS+CkmBwYpoZ6fTGcf7DNfr9U29Xh+hJqv6B1KSVGi322Nos4DfnM7+PAJJ3wIMAFXe1IGFEc92AAAAAElFTkSuQmCC" class="img-fluid"></span></a>`,
+            InnerHtml: ""
+          });
+          items.push({
+            ddId: `${item.Name}_desc`,
+            Id: item.Name,
+            SortOrder: "desc",
+            Text: `<a><span>${
+              item.Title ? item.Title : item.Name
+            } </span><span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAJCAYAAAACTR1pAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ1IDc5LjE2MzQ5OSwgMjAxOC8wOC8xMy0xNjo0MDoyMiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTY1MTQ2NEI0MTdDMTFFOUE5QzVGOUNCOEQ5NDA4RDMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTY1MTQ2NEE0MTdDMTFFOUE5QzVGOUNCOEQ5NDA4RDMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTkgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDdBMjBGQzg0MTdBMTFFOTlGODNDRkI2QTlGMzIxMTMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDdBMjBGQzk0MTdBMTFFOTlGODNDRkI2QTlGMzIxMTMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6ZlINaAAABVElEQVR42mKcPHkyAzr4//8/iJJSU1PjEBYWvvft2zcGRkZGMP737x8DNzc3AxMDFsDExMT+8+fPrnPnzt1+//69O0gh1DCEGnRNQFNZf//+PQmIo//+/ct09uzZzUDNtpycnCiamdBsYvvz50/358+f0/j4+FYJCgrmAjWzAjXv/fjxozWyZiYkm5iBtrR/+PAhX0REZIe+vn44CwvLFB4enjygYSDN24EGmnBxcYE1M8E8DZTs+PTpUxEwMPaZmJh4A21n+PXrFwMzM/NkoO1lQHne06dPHwRq1uXg4GBgAgoYAhVMBWoq4efnP2xkZOQLNOgfSBMsFIGGdPPy8lYBxbhOnTq1H6hWjklMTEwa6A8zoPsvAW3yYWVl/QYMUYzoAdrcDnR2D5D9ERg9bCzAoN4DjK/zQCd+Akp+/vHjB0gR1rgF2twhKSk5A2jJXYAAAwCeLasKt0POPQAAAABJRU5ErkJggg==" class="img-fluid"></span></a>`,
+            InnerHtml: ""
+          });
+        });
+      }
+      this.sortOptions = items;
+      return this.sortOptions;
+    },
+    getSelectedItemId() {
+      if (!this.orderBy) {
+        this.selectedItemId = this.revelanceId;
+      }
+      if (this.orderBy && this.asec) {
+        this.selectedItemId = `${this.orderBy}_asec`;
+      }
+      if (this.orderBy && !this.asec) {
+        this.selectedItemId = `${this.orderBy}_desc`;
+      }
+      return this.selectedItemId;
+    },
+    onChangeSelection(data) {
+      if (data) {
+        if (data.Id && !data.SortOrder) {
+          this.$emit("onChangeSelection", {
+            orderBy: "",
+            asec: true
+          });
+        } else if (data.Id && data.SortOrder) {
+          this.$emit("onChangeSelection", {
+            orderBy: data.Id,
+            asec: data.SortOrder.toLowerCase() === "asec"
+          });
+        }
+      }
+    }
+  }
+};
+</script>

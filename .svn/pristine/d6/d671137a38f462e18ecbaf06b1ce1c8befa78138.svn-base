@@ -1,0 +1,36 @@
+<template>
+  <sana-model-popup ref="loading_popup">
+    <div class="modal-content">
+      <div class="popup-title">
+        <h5 class="font-bold" v-text="this.HeaderText"></h5>
+      </div>
+      <span>
+        <!-- <p v-text="this.GetSanaText('IOO_SearchPage_Loading','Loading....')"></p> -->
+        <img class="img-fluid" src="@/assets/loading.gif">
+      </span>
+      <div class="popup-description">
+        <h5 class="font-bold" v-text="this.Description"></h5>
+      </div>
+    </div>
+  </sana-model-popup>
+</template>
+<script>
+import ModelPopup from "./ModelPopup.vue";
+
+export default {
+  name: "LoadingPopup",
+  components: {
+    "sana-model-popup": ModelPopup
+  },
+  props: {
+    HeaderText: {
+      type: String,
+      required: false
+    },
+    Description: {
+      type: String,
+      required: false
+    }
+  }
+};
+</script>

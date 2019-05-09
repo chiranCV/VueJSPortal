@@ -1,0 +1,10 @@
+<template>
+  <div>
+    <h4>basket Line</h4>
+  </div>
+</template>
+<script>
+export default {
+  name: "BasketLine"
+};
+</script>

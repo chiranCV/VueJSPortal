@@ -1,0 +1,13 @@
+@-moz-document url-prefix() {
+  .quantity-box-pm-ic-block {
+    .vnis__button {
+      margin-left: -4px;
+      &.vnis__button__decrement {
+        top: 7px !important;
+      }
+      &.vnis__button__increment {
+        top: -2px;
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+<template>
+  <div>
+    search result
+    <sana-qtybox v-if="(!IsDataLaoding)"></sana-qtybox>
+  
+  <div class="col-md-6">
+
+    <h1>H1 Lorem Ipsum Dolor</h1>
+    <h2>H1 Lorem Ipsum Dolor</h2>
+    <h3>H1 Lorem Ipsum Dolor</h3>
+    <h4>H1 Lorem Ipsum Dolor</h4>
+    <h5>H1 Lorem Ipsum Dolor</h5>
+    <h6>H1 Lorem Ipsum Dolor</h6>
+
+    <div>
+      <p>H1 Lorem Ipsum Dolor</p>
+    </div>
+
+  </div>
+  <div class="col-md-6">
+
+    <h1 class="font-bold">H1 Lorem Ipsum Dolor</h1>
+    <h2 class="font-bold">H1 Lorem Ipsum Dolor</h2>
+    <h3 class="font-bold">H1 Lorem Ipsum Dolor</h3>
+    <h4 class="font-bold">H1 Lorem Ipsum Dolor</h4>
+    <h5 class="font-bold">H1 Lorem Ipsum Dolor</h5>
+    <h6 class="font-bold">H1 Lorem Ipsum Dolor</h6>
+
+    <div>
+      <p class="font-bold">H1 Lorem Ipsum Dolor</p>
+    </div>
+
+  </div>
+
+  <div>
+    <h3 class="font-bold">Buttons</h3>
+    <div>   
+      <button class="ioo-btn ioo-btn-primary">Button</button>
+    </div>
+    <div>
+      <button class="ioo-btn ioo-btn-default">Button</button>
+    </div>
+      <div>   
+      <button class="ioo-btn ioo-btn-primary long-text">Long text goes here</button>
+    </div>
+
+          <div>   
+      <button class="ioo-btn ioo-btn-primary long-text">Long text goes here<span class="btn-arrow-right"></span> </button>
+    </div>
+  </div>
+  </div>
+</template>
+<script>
+import { mapActions } from "vuex";
+
+import { FETCH_SEARCH_RESULT } from "../../store/action-types";
+
+const QtyBox = () => import(/* webpackChunkName:"qtybox" */ "../shared/ui/QuantityBox.vue");
+
+export default {
+  name: "Search",
+
+  // components.
+  components: {
+    "sana-qtybox": QtyBox
+  },
+
+  // local state.
+  data() {
+    return {
+      ListItems: {},
+      IsDataLaoding: false,
+      searchOptions: { query: "1", pagesize: 10 }
+    };
+  },
+
+  // props for the compoment.
+  props: {},
+
+  // Life sycle hooks.
+  created() {
+    this.IsDataLaoding = true;
+    this.fetchSearchResult(this.searchOptions).then(
+      (this.IsDataLaoding = false)
+    );
+  },
+
+  mounted() {},
+
+  // vue defult propetes for data manupilation.
+  watch: {},
+
+  filters: {},
+
+  computed: {},
+
+  methods: {
+    ...mapActions("products", {
+      fetchSearchResult: FETCH_SEARCH_RESULT
+    })
+  }
+};
+</script>

@@ -1,0 +1,7 @@
+.product-details-page{
+        .product-image{
+            img{
+            width: 100%;
+        }
+    }
+}

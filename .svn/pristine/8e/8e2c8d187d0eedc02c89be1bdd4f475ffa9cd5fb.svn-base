@@ -1,0 +1,81 @@
+<template>
+  <div class="app-wrapper">
+    <div class="container">
+      <div class="iooContainer">
+        <div class="row">
+          <div class="col-md-6">
+            <h2 class="mb-0">Search result</h2>
+            <h2 class="colorPrimary">Look now for products</h2>
+          </div>
+          <div class="col-md-6">
+<a href="#" class="online-shop-link-txt"><span class="online-shop-link-txt-img"><img src="@/assets/arrow-left.svg" class="img-fluid"></span><a href="#/"><span>
+            Online Shop
+            <br>Overview
+          </span></a></a>
+            <div class="dropdown cart-dropdown-container">
+              <button class="zfbtn cartBtnI " type="button" data-toggle="dropdown">3 Products(s)</button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li class="ioo-mb-20">
+                  <p class="font-weight-bold">The following has been added to your shopping basket.</p>
+                </li>
+                <li>
+                  <div class="row">
+                    <div class="col-md-5 ioo-pr-10">
+                      <img class="drop-down-img" alt="108 * 78" src="@/assets/sm-thumb-img.jpg">
+                    </div>
+                    <div class="col-md-7 ioo-pl-10">
+                      <p>Brake Disc</p>
+                      <div class="colorBlackLight smFont">3311302 029 01 (Standard)</div>
+                      <div class="font-weight-bold smFont mt-3">3 Pieces</div>
+                    </div>
+                  </div>
+                   <div class="row">
+                       <div class="col-md-12">
+                             <button class="zfbtn primaryBtnCheckouti " type="button" data-toggle="dropdown">Checkout</button>
+                         </div>
+                     </div>
+                </li>
+              </ul>
+            </div>
+            <div class="cus-info-block">
+              <h6>Customer 123456<img class="iconWarn" src="@/assets/icon-warning.png" /></h6>
+              <div>
+                <a href="#" class="zfbtn ioo-pt-2 " data-toggle="dropdown">Change
+                  <span class="downArrow"></span>
+
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                  <div class="form-group search-block">
+   <img class="img-fluid"  src="@/assets/search-left.png"/>
+    <input type="text" >
+  </div>
+                  </li>
+                  <li>
+                   <ul class="application-list-block">
+                     <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                        <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                          <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                       <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                    <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                  <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                              <li><a href="#"> 8373940 | Test Company, Division Sweden</a> </li>
+                     </ul>
+                  </li>
+                  <li>
+                    <button class="zfbtn primaryBtn " type="button" >Go to application Overview</button>
+                    </li>
+                </ul>
+                <div class="hr-seprator">
+                </div>
+                <a class="ioo-pt-2" href="#">Manage Account</a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+</div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,35 @@
+<template>
+  <div>
+    search result
+    <sana-qtybox></sana-qtybox>
+  </div>
+</template>
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+
+export default {
+  name: "Search",
+
+  // components.
+  components: {
+    "sana-qtybox": QtyBox
+  },
+
+  // props for the compoment.
+  props: {},
+
+  // Life sycle hooks.
+  created() {},
+
+  mounted() {},
+
+  // vue defult propetes for data manupilation.
+  watch: {},
+
+  filters: {},
+
+  computed: {},
+
+  methods: {}
+};
+</script>

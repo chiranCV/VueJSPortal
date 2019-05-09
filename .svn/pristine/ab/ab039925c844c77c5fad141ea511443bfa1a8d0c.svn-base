@@ -1,0 +1,165 @@
+<template>
+  <div class="last-viewed-block" v-if="(!isLoading)">
+    <div class="ioo-mt-40 mb-4 ioo-mb-40">
+      <div class="d-flex flex-row">
+        <div class="p-2 pr-10 ioo-mr-10">
+          <h4 class="font-bold">Last Viewed Products</h4>
+        </div>
+        <div class="p-2 ioo-mt-7">
+          <a class="ml-2" href>View all</a>
+        </div>
+        <div class="p-2 ioo-mt-7" v-on:click="handleclearLatviewItems">
+          <a class="ml-2">Clear</a>
+        </div>
+      </div>
+    </div>
+    <div class="caresoul-grid-container">
+      <sana-carosel v-bind:listSize="lastviewdItelsList.length">
+        <div
+          class="grid-carousel--card col-4"
+          v-for="(item,index) in lastviewdItelsList"
+          v-bind:key="index"
+        >
+          <div class="grid-border">
+            <div class="product-img">
+              <img class="img-fluid" src="@/assets/lg-thumb-img.jpg">
+            </div>
+            <div class="product-info">
+              <div class="row">
+                <div class="col-7">
+                  <!-- eslint-disable max-len -->
+                  <a>
+                    <h6 class="product-title" v-text="item.Product.Title">Title</h6>
+                  </a>
+                  <span v-text="item.Product.Id">Id</span>
+                  <span class="list-dropdown-text float-right">
+                    <sana-dropdown
+                      SelectType="basic"
+                      v-bind:DataList="getProductTypes(item)"
+                      v-bind:PreSelecteditem="getProductTypes(item)[0]"
+                      IdField="Id"
+                      TextField="Title"
+                      DefaultText="Select Type"
+                      DefaultTextSanaTextKey="IOO_GlobalInventoryCheck_Type_DefaultText"
+                      v-on:onChangeSelection="handleProductTypeSelection"
+                    ></sana-dropdown>
+                  </span>
+                  <span>Cross Reference:SD80015</span>
+                  <sana-stock v-bind:StockModel="item.Stock"></sana-stock>
+                  <sana-inventory-check
+                    v-bind:ProductId="item.Product.Id"
+                    v-bind:ProductType="selectedProductType"
+                    v-bind:Quantity="quntity"
+                  ></sana-inventory-check>
+                </div>
+                <div class="col-5">
+                  <p class="product-price text-right">&#8364; 584,40</p>
+                  <div class="auro-increment-input text-right">
+                    <input type="number" name="quantity" min="1" max="5">
+                  </div>
+                </div>
+              </div>
+              <div class="btn-block row clearfix text-center">
+                <div class="col-5 float-left pl-0 ioo-mw-100 ioo-dk-pr-0">
+                  <button class="ioo-btn ioo-btn-default">Details</button>
+                </div>
+                <div class="col-7 float-left pr-0 ioo-mw-100 ioo-dk-pl-0">
+                  <button class="ioo-btn ioo-btn-primary float-right">
+                    <span class="btn-inner">
+                      <span class="btn-text">Add to basket</span>
+                      <span class="btn-cart-white"></span>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sana-carosel>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapState } from "vuex";
+import carosel from "../shared/ui/Carousel.vue";
+import { FETCH_LASTVIEWED_ITEMS } from "../../store/action-types";
+import globalHelper from "../../helpers/GlobalHelper";
+import Dropdown from "../shared/ui/Dropdown.vue";
+import Stockindicator from "../shared/ui/StockIndicator.vue";
+import CheckInventory from "../shared/CheckInventory.vue";
+
+export default {
+  name: "LastViewed",
+  components: {
+    "sana-carosel": carosel,
+    "sana-dropdown": Dropdown,
+    "sana-stock": Stockindicator,
+    "sana-inventory-check": CheckInventory
+  },
+  props: {
+    ProductId: {
+      type: String,
+      required: true
+    }
+  },
+
+  data() {
+    return {
+      isLoading: true,
+      selectedProductType: "00",
+      quntity: "0",
+      lastviewdItelsList: []
+    };
+  },
+  created() {
+    const lastviewIdList = globalHelper.addNewProductToLastviewedIdList(
+      this.ProductId
+    );
+    const lastViedLoadOptions = {
+      productIdList: lastviewIdList,
+      curentProductId: this.ProductId
+    };
+    this.isLoading = true;
+    this.fetchLastViewedItems(lastViedLoadOptions).then(() => {
+      /*   this.lastViewedModel = this.lastViewedItems; */
+
+      this.isLoading = false;
+      this.lastviewdItelsList = this.lastViewedModel;
+    });
+  },
+  methods: {
+    ...mapActions("products", {
+      fetchLastViewedItems: FETCH_LASTVIEWED_ITEMS
+    }),
+    onQuantityChange(qty) {
+      this.quantity = qty;
+    },
+    onProductTypeChangeSelection(val) {
+      this.selectedProductTypeId = val.Id;
+      this.selectedProductTypeTitle = val.Title;
+    },
+    getProductTypes(ProductModel) {
+      return ProductModel && ProductModel.ProductType.length > 0
+        ? ProductModel.ProductType
+        : [];
+    },
+    /* events */
+    handleProductTypeSelection(selectedItem) {
+      this.selectedProductType = selectedItem.Id;
+    },
+    handleclearLatviewItems() {
+      globalHelper.clearLastViewedItems();
+      this.lastviewdItelsList = [];
+    }
+  },
+  computed: {
+    ...mapState("products", {
+      // eslint-disable-next-line no-trailing-spaces
+      lastViewedModel: state =>
+        // eslint-disable-next-line indent
+        state.LastVewItems
+    })
+  }
+};
+</script>

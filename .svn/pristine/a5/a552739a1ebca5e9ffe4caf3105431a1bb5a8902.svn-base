@@ -1,0 +1,22 @@
+// Product Actions.
+
+import productApi from "../../../api/product-api";
+import { FETCH_SEARCH_RESULT } from "../../action-types";
+import { UPDATE_PRODUCTS_SATE } from "../../mutation-types";
+
+export default {
+  // fetch serch reult.
+  [FETCH_SEARCH_RESULT]: (context, listOptions) =>
+    new Promise((resolve, reject) => {
+      productApi
+        .getProductList(listOptions.query, 1, listOptions.pagesize)
+        .then((searchResult) => {
+          context.commit(UPDATE_PRODUCTS_SATE, searchResult);
+          resolve();
+        })
+        .catch((error) => {
+          reject();
+          throw error;
+        });
+    })
+};

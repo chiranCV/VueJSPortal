@@ -1,0 +1,99 @@
+<template>
+  <div>
+    <div class="row search-list-container ioo-no-gutters">
+      <div class="col-4 pl-0">
+        <div class="row ioo-no-gutters">
+          <div class="col-3 pl-0 pr-0">
+            <div class="list-avatar-block">
+              <img src="@/assets/md-thumb-img.jpg">
+            </div>
+          </div>
+          <div class="col-9 ioo-pl-20">
+            <h6>Clutch Actuation System</h6>
+            <span>3311 302 029 01</span>
+            <span class="list-dropdown-text">
+              <a class="zfbtn" data-toggle="dropdown">
+                <span class="down-arrow"></span>
+                <div>
+                  <span>Reman</span>
+                </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                  <a>Reman</a>
+                </li>
+                <li>
+                  <a>Reman</a>
+                </li>
+                <li>
+                  <a>Reman</a>
+                </li>
+              </ul>
+            </span>
+            <div>
+              <span>Cross Reference: SD80015</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 ioo-dpl-55">
+        <div class="d-inline-flex">
+          <div class="v-center-block pr-4">
+            <!-- stock indicator -->
+          </div>
+          <div class="v-center-btn-block pr-4">
+            <button
+              class="ioo-sm-btn check-inv-btn"
+              type="button"
+              data-toggle="modal"
+              data-target="#inventoryCheck"
+            >Check Inventory</button>
+          </div>
+          <div class="v-center-block pr-4">
+            <span class="list-price-text">
+              <sana-price v-bind:Price="156.35"></sana-price>
+            </span>
+          </div>
+          <!-- Qty box -->
+          <sana-qty-box v-bind:QuantityModel="null"></sana-qty-box>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="row">
+          <div class="col-6 pr-0">
+            <div class="v-center-btn-block">
+              <button class="ioo-btn ioo-btn-primary">
+                <span class="btn-inner">
+                  <span class="btn-text">Add to basket</span>
+                  <span class="btn-cart-white"></span>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="col-6 ioo-pr-20 pl-0">
+            <div class="v-center-btn-block">
+              <button class="ioo-btn ioo-btn-default">Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import QtyBox from "../shared/ui/QuantityBox.vue";
+import PriceLabel from "../shared/ui/PriceLabel.vue";
+
+export default {
+  name: "ProductListItem",
+  components: {
+    "sana-qty-box": QtyBox,
+    "sana-price": PriceLabel
+  },
+  props: {
+    ProductModel: {
+      type: Object
+    }
+  }
+};
+</script>
